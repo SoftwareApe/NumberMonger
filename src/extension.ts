@@ -13,16 +13,36 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let sumSeqDec = vscode.commands.registerCommand('extension.sumSequence', () => sumSequence(10));
-    let sumSeqHex = vscode.commands.registerCommand('extension.sumSequenceHex', () => sumSequence(16));
-    let sumSeqBin = vscode.commands.registerCommand('extension.sumSequenceBin', () => sumSequence(2));
-
+    let sumSeqDec = vscode.commands.registerCommand('extension.sumSequence', sumSequenceDec);
+    let sumSeqHex = vscode.commands.registerCommand('extension.sumSequenceHex', sumSequenceHex);
+    let sumSeqBin = vscode.commands.registerCommand('extension.sumSequenceBin', sumSequenceBin);
     context.subscriptions.push(sumSeqDec);
     context.subscriptions.push(sumSeqHex);
     context.subscriptions.push(sumSeqBin);
 }
 
-function sumSequence(base : number) {
+function sumSequenceDec() {
+    printSum(sumSequence(10))
+}
+
+function sumSequenceHex() {
+    printSum(sumSequence(16))
+}
+
+function sumSequenceBin() {
+    printSum(sumSequence(2))
+}
+
+function printSum(sum : number) {
+    // Check if this is a sequence of numbers
+    var isNumber = !isNaN(sum)
+    
+    // Display a message box to the user
+    var displayText = isNumber ? "Sum of sequence: " + sum : "Error: Couldn't parse numbers in sequence."
+    vscode.window.showInformationMessage(displayText);
+}
+
+function sumSequence(base : number) : number {
     var editor = vscode.window.activeTextEditor;
     if (!editor) {
         return; // No open text editor
@@ -40,12 +60,7 @@ function sumSequence(base : number) {
     //try to convert sequence of numbers
     var sum = texts.map(t => parseInt(t, base)).reduce((a, b) => a + b, 0);
 
-    // Check if this is a sequence of numbers
-    var isNumber = !isNaN(sum)
-    
-    // Display a message box to the user
-    var displayText = isNumber ? "Sum of sequence: " + sum : "Error: Couldn't parse numbers in sequence."
-    vscode.window.showInformationMessage(displayText);
+    return sum
 }
 
 
