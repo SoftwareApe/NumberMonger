@@ -12,11 +12,32 @@ import * as vscode from 'vscode';
 import * as myExtension from '../extension';
 
 // Defines a Mocha test suite to group tests of similar kind together
-suite("Extension Tests", () => {
-
-    // Defines a Mocha unit test
-    test("Something 1", () => {
-        assert.equal(-1, [1, 2, 3].indexOf(5));
-        assert.equal(-1, [1, 2, 3].indexOf(0));
+suite("Sum Sequence tests", () => {
+    test("Sum decimals", () => {
+        assert.equal(0, myExtension.sumSequence([], 10));
+        assert.equal(true, isNaN(myExtension.sumSequence([""], 10)));
+        assert.equal(1, myExtension.sumSequence(["1"], 10));
+        assert.equal(6, myExtension.sumSequence(["1", "2", "3"], 10));
+        assert.equal(6, myExtension.sumSequence(["1    ", " 2 ", "   3"], 10));
+        assert.equal(13, myExtension.sumSequence(["1", "2", "10"], 10));
+        assert.equal(true, isNaN(myExtension.sumSequence(["1", "2", "af"], 10)));       
     });
+    
+    test("Sum hexadecimals", () => {
+        assert.equal(0, myExtension.sumSequence([], 16));
+        assert.equal(true, isNaN(myExtension.sumSequence([""], 16)));
+        assert.equal(1, myExtension.sumSequence(["1"], 16));
+        assert.equal(6, myExtension.sumSequence(["1", "2", "3"], 16));
+        assert.equal(19, myExtension.sumSequence(["1", "2", "10"], 16));
+        assert.equal(178, myExtension.sumSequence(["1", "2", "af"], 16));        
+    });
+
+    test("Sum binary", () => {
+        assert.equal(0, myExtension.sumSequence([], 2));
+        assert.equal(true, isNaN(myExtension.sumSequence([""], 2)));
+        assert.equal(1, myExtension.sumSequence(["1"], 2));
+        assert.equal(true, isNaN(myExtension.sumSequence(["1", "2", "3"], 2)));
+        assert.equal(3, myExtension.sumSequence(["1", "0", "10"], 2));        
+    });
+
 });

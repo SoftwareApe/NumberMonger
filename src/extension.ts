@@ -22,15 +22,15 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function sumSequenceDec() {
-    printSum(sumSequence(10))
+    printSum(sumSequence(getSelectedTexts(), 10))
 }
 
 function sumSequenceHex() {
-    printSum(sumSequence(16))
+    printSum(sumSequence(getSelectedTexts(), 16))
 }
 
 function sumSequenceBin() {
-    printSum(sumSequence(2))
+    printSum(sumSequence(getSelectedTexts(), 2))
 }
 
 function printSum(sum : number) {
@@ -42,14 +42,15 @@ function printSum(sum : number) {
     vscode.window.showInformationMessage(displayText);
 }
 
-function sumSequence(base : number) : number {
+function getSelectedTexts() : string[] {
     var editor = vscode.window.activeTextEditor;
     if (!editor) {
-        return; // No open text editor
+        return []; // No open text editor
     }
-    
-    var selections = editor.selections;
+
     var texts : string[] = []
+    var selections = editor.selections;
+    
     if(selections.length > 1) { // user used multiple selections
         texts = selections.map(s => editor.document.getText(s))
     } else if(selections.length === 1) { // single selection => first need to split on newlines
@@ -57,8 +58,12 @@ function sumSequence(base : number) : number {
         texts = text.split(/\r?\n/)
     }
 
+    return texts
+} 
+
+export function sumSequence(textSelections : string[], base : number) : number {
     //try to convert sequence of numbers
-    var sum = texts.map(t => parseInt(t, base)).reduce((a, b) => a + b, 0);
+    var sum = textSelections.map(t => parseInt(t, base)).reduce((a, b) => a + b, 0)
 
     return sum
 }
