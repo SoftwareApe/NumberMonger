@@ -71,12 +71,29 @@ export function sumSequence(textSelections : string[], base : number) : number {
     return sum
 }
 
-export function numbersToString(numbers : number[], base : number, rightAlign : boolean) : string[] {
+export function numbersToString(numbers : number[], base : number, isRightAligned : boolean, isPrefixed : boolean) : string[] {
     var strings = numbers.map(n => n.toString(base).toUpperCase())
-    if(rightAlign) {
-        var maxLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
-        strings = strings.map(s => leftPad(s, maxLength))
+    
+    // check what kind of prefix needs to be added
+    var prefix : string = ""
+    if(isPrefixed) {
+        if(base === 16) {
+            prefix = "0x"
+        } else if (base === 2) {
+            prefix = "0b"
+        }
     }
+    
+    // right align
+    if(isRightAligned) {
+        var padchar = prefix.length > 0 ? '0' : ' ' 
+        var maxLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
+        strings = strings.map(s => leftPad(s, maxLength, padchar))
+    }
+
+    // prefix after alignment
+    strings = strings.map(s => prefix + s)
+
     return strings
 }
 
