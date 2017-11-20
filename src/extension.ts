@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let sumSeqDec = vscode.commands.registerCommand('extension.sumSequence', sumSequenceDec);
+    let sumSeqDec = vscode.commands.registerCommand('extension.sumSequenceDec', sumSequenceDec);
     let sumSeqHex = vscode.commands.registerCommand('extension.sumSequenceHex', sumSequenceHex);
     let sumSeqBin = vscode.commands.registerCommand('extension.sumSequenceBin', sumSequenceBin);
     context.subscriptions.push(sumSeqDec);
@@ -68,6 +68,15 @@ export function sumSequence(textSelections : string[], base : number) : number {
     return sum
 }
 
+export function createSequence(start : number, nValues : number, stepSize : number) {
+    var seq = [];
+    
+    for (var i = 0; i < nValues; ++i) {
+        seq.push(start + i * stepSize);
+    }
+
+    return seq
+}
 
 // this method is called when your extension is deactivated
 export function deactivate() {
