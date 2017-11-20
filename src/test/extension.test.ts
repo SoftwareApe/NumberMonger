@@ -43,7 +43,7 @@ suite("Sum Sequence tests", () => {
 })
 
 suite("Create Sequence tests", () => {
-    test("Create decimals", () => {    
+    test("Create number sequence", () => {    
         assert.deepStrictEqual([], myExtension.createSequence(2, 0, 10))    
         assert.deepStrictEqual([2], myExtension.createSequence(2, 1, 10))    
         assert.deepStrictEqual([0, 1, 2], myExtension.createSequence(0, 3, 1))    
@@ -51,5 +51,15 @@ suite("Create Sequence tests", () => {
         assert.deepStrictEqual([1, 5, 9], myExtension.createSequence(1, 3, 4))    
         assert.deepStrictEqual([0, -4, -8], myExtension.createSequence(0, 3, -4))    
         assert.deepStrictEqual([12, 8, 4, 0, -4, -8, -12], myExtension.createSequence(12, 7, -4))    
+    })
+
+    test("Convert sequences to string", () => {    
+        assert.deepStrictEqual([], myExtension.numbersToString([], 10, false))  
+        assert.deepStrictEqual(["0", "1", "2"], myExtension.numbersToString([0, 1, 2], 10, false))  
+        assert.deepStrictEqual(["0", "10", "100"], myExtension.numbersToString([0, 10, 100], 10, false))  
+        assert.deepStrictEqual(["-3", "0", "3"], myExtension.numbersToString([-3, 0, 3], 10, false))  
+        assert.deepStrictEqual(["0", "A", "64"], myExtension.numbersToString([0, 10, 100], 16, false))  
+        assert.deepStrictEqual(["0", "10", "11"], myExtension.numbersToString([0, 2, 3], 2, false))  
+        assert.deepStrictEqual([" 0", "10", "11"], myExtension.numbersToString([0, 2, 3], 2, true))  
     })
 })

@@ -1,7 +1,10 @@
-'use strict';
+'use strict'
+
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from 'vscode'
+
+import leftPad = require('left-pad')
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -68,7 +71,16 @@ export function sumSequence(textSelections : string[], base : number) : number {
     return sum
 }
 
-export function createSequence(start : number, nValues : number, stepSize : number) {
+export function numbersToString(numbers : number[], base : number, rightAlign : boolean) : string[] {
+    var strings = numbers.map(n => n.toString(base).toUpperCase())
+    if(rightAlign) {
+        var maxLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
+        strings = strings.map(s => leftPad(s, maxLength))
+    }
+    return strings
+}
+
+export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
     var seq = [];
     
     for (var i = 0; i < nValues; ++i) {
