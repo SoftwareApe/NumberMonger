@@ -17,18 +17,39 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let sumSeqDec = vscode.commands.registerCommand('extension.sumSequenceDec', sumSequenceDec)
-    let sumSeqHex = vscode.commands.registerCommand('extension.sumSequenceHex', sumSequenceHex)
-    let sumSeqBin = vscode.commands.registerCommand('extension.sumSequenceBin', sumSequenceBin)
-    let createSeqDec = vscode.commands.registerCommand('extension.createSequenceDec', createSequenceDec)
-    let createSeqHex = vscode.commands.registerCommand('extension.createSequenceHex', createSequenceHex)
-    let createSeqBin = vscode.commands.registerCommand('extension.createSequenceBin', createSequenceBin)
-    context.subscriptions.push(sumSeqDec)
-    context.subscriptions.push(sumSeqHex)
-    context.subscriptions.push(sumSeqBin)
-    context.subscriptions.push(createSeqDec)
-    context.subscriptions.push(createSeqHex)
-    context.subscriptions.push(createSeqBin)
+    let commands =
+    [
+        {
+            "name" : "extension.sumSequenceDec",
+            "callback" : sumSequenceDec
+        },
+        {
+            "name" : "extension.sumSequenceHex",
+            "callback" : sumSequenceHex
+        },
+        {
+            "name" : "extension.sumSequenceBin",
+            "callback" : sumSequenceBin
+        },
+        {
+            "name" : "extension.createSequenceDec",
+            "callback" : createSequenceDec
+        },
+        {
+            "name" : "extension.createSequenceHex",
+            "callback" : createSequenceHex
+        },
+        {
+            "name" : "extension.createSequenceBin",
+            "callback" : createSequenceBin
+        }
+    ]
+
+    //register all commands
+    commands.map(command => {
+        var subscription = vscode.commands.registerCommand(command.name, command.callback)
+        context.subscriptions.push(subscription)
+    })
 }
 
 function createSequenceDec() {
