@@ -16,7 +16,9 @@
     "onCommand:extension.sumSequenceDec",
     "onCommand:extension.sumSequenceHex",
     "onCommand:extension.sumSequenceBin",
-    "onCommand:extension.createSequenceDec"
+    "onCommand:extension.createSequenceDec",
+    "onCommand:extension.createSequenceHex",
+    "onCommand:extension.createSequenceBin"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -36,6 +38,14 @@
       {
         "command": "extension.createSequenceDec",
         "title": "Create Sequence"
+      },
+      {
+        "command": "extension.createSequenceHex",
+        "title": "Create Sequence (Hexadecimal)"
+      },
+      {
+        "command": "extension.createSequenceBin",
+        "title": "Create Sequence (Binary)"
       }
     ]
   },
