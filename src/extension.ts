@@ -73,26 +73,23 @@ export function sumSequence(textSelections : string[], base : number) : number {
 }
 
 export function numbersToString(numbers : number[], base : number, isRightAligned : boolean, isZeroPadded : boolean) : string[] {
-    var strings = numbers.map(n => n.toString(base).toUpperCase())
-    
-    // check what kind of prefix needs to be added
-    var prefix : string = ""
-    if(isZeroPadded) {
-        var absNumbers = numbers.map(n => Math.abs(n))
-        var maxAbsLength = absNumbers.map(n => n.toString(base).length).reduce((a, b) => Math.max(a, b), 0)
+    //separate signs and string representation
+    var strings = numbers.map(n => Math.abs(n).toString(base).toUpperCase())
+    var signs = numbers.map(n => n < 0 ? "-" : "")
 
-        strings = strings.map(s => sprintfJs.sprintf("%0" + maxAbsLength + "s", s))
+    var formatString : string = "%s%s"
+    if(isZeroPadded) {
+        var maxAbsLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
+        formatString = "%s%0" + maxAbsLength + "s"
     }
+
+    strings = strings.map((s, i) => sprintfJs.sprintf(formatString, signs[i], s))
     
     // right align
-    if(isRightAligned) {
-        var padchar = prefix.length > 0 ? '0' : ' ' 
+    if(isRightAligned) { 
         var maxLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
-        strings = strings.map(s => leftPad(s, maxLength, padchar))
+        strings = strings.map(s => leftPad(s, maxLength))
     }
-
-    // prefix after alignment
-    strings = strings.map(s => prefix + s)
 
     return strings
 }
