@@ -1,54 +1,62 @@
 {
-    "name": "numbermonger",
-    "displayName": "NumberMonger",
-    "description": "Sum up selected numbers. Insert a sequence of numbers at the multi-cursor positions. Start the sequence at an arbitrary number and with arbitrary stepsize. Convert hex values to decimal or binary and vice versa.",
-    "version": "0.0.1",
-    "publisher": "softwareape",
-    "license" : "MIT",
-    "repository": "https://github.com/SoftwareApe/NumberMonger",
-    "engines": {
-        "vscode": "^1.18.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.sumSequenceDec",
-        "onCommand:extension.sumSequenceHex",
-        "onCommand:extension.sumSequenceBin",
-        "onCommand:extension.createSequenceDec"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [{
-            "command": "extension.sumSequenceDec",
-            "title": "Sum Sequence"
-        }, {
-            "command": "extension.sumSequenceHex",
-            "title": "Sum Sequence (Hexadecimal)"
-        }, {
-            "command": "extension.sumSequenceBin",
-            "title": "Sum Sequence (Binary)"
-        }, {
-            "command": "extension.createSequenceDec",
-            "title": "Create Sequence"
-        }]
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "dependencies": {
-        "left-pad": "^1.2.0"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "@types/left-pad": "^1.2.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    }
+  "name": "numbermonger",
+  "displayName": "NumberMonger",
+  "description": "Sum up selected numbers. Insert a sequence of numbers at the multi-cursor positions. Start the sequence at an arbitrary number and with arbitrary stepsize. Convert hex values to decimal or binary and vice versa.",
+  "version": "0.0.1",
+  "publisher": "softwareape",
+  "license": "MIT",
+  "repository": "https://github.com/SoftwareApe/NumberMonger",
+  "engines": {
+    "vscode": "^1.18.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.sumSequenceDec",
+    "onCommand:extension.sumSequenceHex",
+    "onCommand:extension.sumSequenceBin",
+    "onCommand:extension.createSequenceDec"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.sumSequenceDec",
+        "title": "Sum Sequence"
+      },
+      {
+        "command": "extension.sumSequenceHex",
+        "title": "Sum Sequence (Hexadecimal)"
+      },
+      {
+        "command": "extension.sumSequenceBin",
+        "title": "Sum Sequence (Binary)"
+      },
+      {
+        "command": "extension.createSequenceDec",
+        "title": "Create Sequence"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "dependencies": {
+    "@types/sprintf-js": "^1.1.0",
+    "left-pad": "^1.2.0",
+    "sprintf-js": "^1.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6",
+    "@types/left-pad": "^1.1.2",
+    "@types/sprintf-js": "^1.1.0",
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^2.2.42"
+  }
 }

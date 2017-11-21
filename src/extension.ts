@@ -5,6 +5,7 @@
 import * as vscode from 'vscode'
 
 import leftPad = require('left-pad')
+import sprintfJs = require('sprintf-js')
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -71,17 +72,16 @@ export function sumSequence(textSelections : string[], base : number) : number {
     return sum
 }
 
-export function numbersToString(numbers : number[], base : number, isRightAligned : boolean, isPrefixed : boolean) : string[] {
+export function numbersToString(numbers : number[], base : number, isRightAligned : boolean, isZeroPadded : boolean) : string[] {
     var strings = numbers.map(n => n.toString(base).toUpperCase())
     
     // check what kind of prefix needs to be added
     var prefix : string = ""
-    if(isPrefixed) {
-        if(base === 16) {
-            prefix = "0x"
-        } else if (base === 2) {
-            prefix = "0b"
-        }
+    if(isZeroPadded) {
+        var absNumbers = numbers.map(n => Math.abs(n))
+        var maxAbsLength = absNumbers.map(n => n.toString(base).length).reduce((a, b) => Math.max(a, b), 0)
+
+        strings = strings.map(s => sprintfJs.sprintf("%0" + maxAbsLength + "s", s))
     }
     
     // right align
