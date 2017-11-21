@@ -61,10 +61,10 @@ function createSequenceDec() {
                                             edit.replace(s, output[i])
                                         })
                                     })
-                                })
-                        })
-                })    
-        })
+                                }, r => {return})
+                        }, r => {return})
+                }, r => {return})    
+        }, r => {return})
 }
 
 function sumSequenceDec() {
