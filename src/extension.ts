@@ -20,9 +20,29 @@ export function activate(context: vscode.ExtensionContext) {
     let sumSeqDec = vscode.commands.registerCommand('extension.sumSequenceDec', sumSequenceDec);
     let sumSeqHex = vscode.commands.registerCommand('extension.sumSequenceHex', sumSequenceHex);
     let sumSeqBin = vscode.commands.registerCommand('extension.sumSequenceBin', sumSequenceBin);
+    let createSeqDec = vscode.commands.registerCommand('extension.createSequenceDec', () => createSequenceDec(0, 1));
     context.subscriptions.push(sumSeqDec);
     context.subscriptions.push(sumSeqHex);
     context.subscriptions.push(sumSeqBin);
+    context.subscriptions.push(createSeqDec);
+}
+
+function createSequenceDec(start : number, stepSize : number) {
+    var editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return // No open text editor => do nothing
+    }
+
+    var selections = editor.selections;
+    var nValues = selections.length
+    var sequence = createSequence(start, nValues, stepSize)
+    var output = numbersToString(sequence, 10, false, false)
+
+    editor.edit(function (edit: vscode.TextEditorEdit): void {
+        selections.forEach((s: vscode.Selection, i: number) => {
+            edit.replace(s, output[i])
+        });
+    })
 }
 
 function sumSequenceDec() {
