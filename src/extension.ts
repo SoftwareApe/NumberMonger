@@ -17,32 +17,54 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let sumSeqDec = vscode.commands.registerCommand('extension.sumSequenceDec', sumSequenceDec);
-    let sumSeqHex = vscode.commands.registerCommand('extension.sumSequenceHex', sumSequenceHex);
-    let sumSeqBin = vscode.commands.registerCommand('extension.sumSequenceBin', sumSequenceBin);
-    let createSeqDec = vscode.commands.registerCommand('extension.createSequenceDec', () => createSequenceDec(0, 1));
-    context.subscriptions.push(sumSeqDec);
-    context.subscriptions.push(sumSeqHex);
-    context.subscriptions.push(sumSeqBin);
-    context.subscriptions.push(createSeqDec);
+    let sumSeqDec = vscode.commands.registerCommand('extension.sumSequenceDec', sumSequenceDec)
+    let sumSeqHex = vscode.commands.registerCommand('extension.sumSequenceHex', sumSequenceHex)
+    let sumSeqBin = vscode.commands.registerCommand('extension.sumSequenceBin', sumSequenceBin)
+    let createSeqDec = vscode.commands.registerCommand('extension.createSequenceDec', createSequenceDec)
+    context.subscriptions.push(sumSeqDec)
+    context.subscriptions.push(sumSeqHex)
+    context.subscriptions.push(sumSeqBin)
+    context.subscriptions.push(createSeqDec)
 }
 
-function createSequenceDec(start : number, stepSize : number) {
-    var editor = vscode.window.activeTextEditor;
+function createSequenceDec() {
+    var editor = vscode.window.activeTextEditor
     if (!editor) {
         return // No open text editor => do nothing
     }
 
-    var selections = editor.selections;
-    var nValues = selections.length
-    var sequence = createSequence(start, nValues, stepSize)
-    var output = numbersToString(sequence, 10, false, false)
-
-    editor.edit(function (edit: vscode.TextEditorEdit): void {
-        selections.forEach((s: vscode.Selection, i: number) => {
-            edit.replace(s, output[i])
-        });
-    })
+    vscode.window.showInputBox({prompt: 'Sequence start (0)'}).then(
+        v => {
+            var start = parseInt(v)
+            if(isNaN(start)) {
+                start = 0
+            }
+            vscode.window.showInputBox({prompt: 'Sequence step size (1)'}).then(
+                v => {
+                    var stepSize = parseInt(v)
+                    if(isNaN(stepSize)) {
+                        stepSize = 1 //default
+                    }
+                    vscode.window.showInputBox({prompt: 'Right align? y/n (n)'}).then(
+                        v => {
+                            var isRightAligned = v.startsWith("y") 
+                            vscode.window.showInputBox({prompt: 'Zero pad? y/n (n)'}).then(
+                                v => {
+                                    var isZeroPadded = v.startsWith("y") 
+                                    var selections = editor.selections;
+                                    var nValues = selections.length
+                                    var sequence = createSequence(start, nValues, stepSize)
+                                    var output = numbersToString(sequence, 10, isRightAligned, isZeroPadded)
+                                
+                                    editor.edit(function (edit: vscode.TextEditorEdit): void {
+                                        selections.forEach((s: vscode.Selection, i: number) => {
+                                            edit.replace(s, output[i])
+                                        })
+                                    })
+                                })
+                        })
+                })    
+        })
 }
 
 function sumSequenceDec() {
