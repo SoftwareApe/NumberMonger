@@ -93,12 +93,26 @@ function convertBaseToBase(baseFrom : number, baseTo :number) {
     var selections = editor.selections
     var selectedText = selections.map(s => editor.document.getText(s))
 
-    var replacements = selectedText.map(t => convertStringBaseToBase(t, baseFrom, baseTo))
+    var replacements = selectedText.map(t => convertStringBaseToBase(t, baseFrom, baseTo, true))
 
     replaceSelections(editor, selections, replacements)
 }
 
-export function convertStringBaseToBase(text : string, baseFrom : number, baseTo : number) : string {
+function getPrefix(base : number) : string {
+    switch(base)
+    {
+        case 16:
+            return "0x" //hex
+        case 8:
+            return "0o" //octal
+        case 2:
+            return "0b" //bin
+        default:
+            return ""   //other
+    }
+}
+
+export function convertStringBaseToBase(text : string, baseFrom : number, baseTo : number, isPrefixed: boolean) : string {
     var regex = baseFrom === 16 ? /(\-?)(?:0x)?([a-fA-F0-9]+)/g : baseFrom === 10 ? /(\-?)([0-9]+)/g : /(\-?)(?:0b)?([0-1]+)/g
     
     var replaced = text.replace(regex, (n, g1, g2 : string) => {
@@ -107,7 +121,7 @@ export function convertStringBaseToBase(text : string, baseFrom : number, baseTo
             return n
         }
         else {
-            var prefix = baseTo === 16 ? "0x" : baseTo === 2 ? "0b" : ""
+            var prefix = isPrefixed ? getPrefix(baseTo) : ""
             return g1 + prefix + found.toString(baseTo).toUpperCase()
         }
     })
@@ -135,40 +149,51 @@ function replaceSelections(editor : vscode.TextEditor, selections : vscode.Selec
     })
 }
 
+function promptUser(prompt : string, callback : (value : string) => any) : void {
+    vscode.window.showInputBox({prompt : prompt}).then(v => callback(v), r => {return})
+}
+
+function promptUserInteger(prompt : string, defaultVal : number, callback : (value : number) => any) : void {
+    promptUser(prompt, v => {
+        var n = parseInt(v)
+        if(isNaN(n)) {
+            n = defaultVal
+        }
+        callback(n)
+    })
+}
+
+function promptUserYesNo(prompt : string, defaultVal : boolean, callback : (value : boolean) => any) : void {
+    promptUser(prompt + " [y/n]", v => {
+        var b = defaultVal ? v.startsWith("y") : !v.startsWith("n")   
+        callback(b)
+    })
+}
+
 function createSequenceAny(base : number) {
     var editor = vscode.window.activeTextEditor
     if (!editor) {
         return // No open text editor => do nothing
     }
 
-    vscode.window.showInputBox({prompt: 'Sequence start (0)'}).then(
-        v => {
-            var start = parseInt(v)
-            if(isNaN(start)) {
-                start = 0
-            }
-            vscode.window.showInputBox({prompt: 'Sequence step size (1)'}).then(
-                v => {
-                    var stepSize = parseInt(v)
-                    if(isNaN(stepSize)) {
-                        stepSize = 1 //default
-                    }
-                    vscode.window.showInputBox({prompt: 'Right align? y/n (n)'}).then(
-                        v => {
-                            var isRightAligned = v.startsWith("y") 
-                            vscode.window.showInputBox({prompt: 'Zero pad? y/n (n)'}).then(
-                                v => {
-                                    var isZeroPadded = v.startsWith("y") 
+    promptUserInteger('Sequence start (0)', 0, 
+        start => {
+            promptUserInteger('Sequence step size (1)', 1,
+                stepSize => {
+                    promptUserYesNo('Right align? (n)', false,
+                        isRightAligned => {
+                            promptUserYesNo('Zero pad? (n)', false,
+                                isZeroPadded => { 
                                     var selections = editor.selections;
                                     var nValues = selections.length
                                     var sequence = createSequence(start, nValues, stepSize)
                                     var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
                                 
                                     replaceSelections(editor, selections, output)
-                                }, r => {return})
-                        }, r => {return})
-                }, r => {return})    
-        }, r => {return})
+                            })
+                    })
+            })    
+    })
 }
 
 function sumSequenceDec() {
