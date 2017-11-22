@@ -18,7 +18,11 @@
     "onCommand:extension.sumSequenceBin",
     "onCommand:extension.createSequenceDec",
     "onCommand:extension.createSequenceHex",
-    "onCommand:extension.createSequenceBin"
+    "onCommand:extension.createSequenceBin",
+    "onCommand:extension.convertHexToDec",
+    "onCommand:extension.convertDecToHex",
+    "onCommand:extension.convertBinToDec",
+    "onCommand:extension.convertDecToBin"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -46,6 +50,22 @@
       {
         "command": "extension.createSequenceBin",
         "title": "Create Sequence (Binary)"
+      },
+      {
+        "command": "extension.convertHexToDec",
+        "title": "Convert Hex -> Dec"
+      },
+      {
+        "command": "extension.convertDecToHex",
+        "title": "Convert Dec -> Hex"
+      },
+      {
+        "command": "extension.convertBinToDec",
+        "title": "Convert Bin -> Dec"
+      },
+      {
+        "command": "extension.convertDecToBin",
+        "title": "Convert Dec -> Bin"
       }
     ]
   },

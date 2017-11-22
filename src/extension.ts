@@ -42,6 +42,22 @@ export function activate(context: vscode.ExtensionContext) {
         {
             "name" : "extension.createSequenceBin",
             "callback" : createSequenceBin
+        },
+        {
+          "name": "extension.convertHexToDec",
+          "callback": convertHexToDec
+        },
+        {
+          "name": "extension.convertDecToHex",
+          "callback": convertDecToHex
+        },
+        {
+          "name": "extension.convertBinToDec",
+          "callback": convertBinToDec
+        },
+        {
+          "name": "extension.convertDecToBin",
+          "callback": convertDecToBin
         }
     ]
 
@@ -50,6 +66,52 @@ export function activate(context: vscode.ExtensionContext) {
         var subscription = vscode.commands.registerCommand(command.name, command.callback)
         context.subscriptions.push(subscription)
     })
+}
+
+function convertHexToDec() {
+    convertBaseToBase(16, 10)
+}
+
+function convertDecToHex() {
+    convertBaseToBase(10, 16)
+}
+
+function convertBinToDec() {
+    convertBaseToBase(2, 10)
+}
+
+function convertDecToBin() {
+    convertBaseToBase(10, 2)
+}
+
+function convertBaseToBase(baseFrom : number, baseTo :number) {
+    var editor = vscode.window.activeTextEditor
+    if (!editor) {
+        return // No open text editor => do nothing
+    }
+
+    var selections = editor.selections
+    var selectedText = selections.map(s => editor.document.getText(s))
+
+    var replacements = selectedText.map(t => convertStringBaseToBase(t, baseFrom, baseTo))
+
+    replaceSelections(editor, selections, replacements)
+}
+
+export function convertStringBaseToBase(text : string, baseFrom : number, baseTo : number) : string {
+    var regex = baseFrom === 16 ? /(?:0x)?([a-fA-F0-9]+)/g : baseFrom === 10 ? /([0-9]+)/g : /(?:0b)?([0-1]+)/g
+    
+    var replaced = text.replace(regex, (n, g1 : string) => {
+        var found = parseInt(g1, baseFrom)
+        if(isNaN(found)) { //leave things untouched if replacement doesn't work
+            return n
+        }
+        else {
+            return found.toString(baseTo).toUpperCase()
+        }
+    })
+
+    return replaced
 }
 
 function createSequenceDec() {
@@ -62,6 +124,14 @@ function createSequenceHex() {
 
 function createSequenceBin() {
     createSequenceAny(2)    
+}
+
+function replaceSelections(editor : vscode.TextEditor, selections : vscode.Selection[], replacement : string[]) {
+    editor.edit(function (edit: vscode.TextEditorEdit): void {
+        selections.forEach((s: vscode.Selection, i: number) => {
+            edit.replace(s, replacement[i])
+        })
+    })
 }
 
 function createSequenceAny(base : number) {
@@ -93,11 +163,7 @@ function createSequenceAny(base : number) {
                                     var sequence = createSequence(start, nValues, stepSize)
                                     var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
                                 
-                                    editor.edit(function (edit: vscode.TextEditorEdit): void {
-                                        selections.forEach((s: vscode.Selection, i: number) => {
-                                            edit.replace(s, output[i])
-                                        })
-                                    })
+                                    replaceSelections(editor, selections, output)
                                 }, r => {return})
                         }, r => {return})
                 }, r => {return})    
