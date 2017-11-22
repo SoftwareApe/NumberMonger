@@ -99,15 +99,16 @@ function convertBaseToBase(baseFrom : number, baseTo :number) {
 }
 
 export function convertStringBaseToBase(text : string, baseFrom : number, baseTo : number) : string {
-    var regex = baseFrom === 16 ? /(?:0x)?([a-fA-F0-9]+)/g : baseFrom === 10 ? /([0-9]+)/g : /(?:0b)?([0-1]+)/g
+    var regex = baseFrom === 16 ? /(\-?)(?:0x)?([a-fA-F0-9]+)/g : baseFrom === 10 ? /(\-?)([0-9]+)/g : /(\-?)(?:0b)?([0-1]+)/g
     
-    var replaced = text.replace(regex, (n, g1 : string) => {
-        var found = parseInt(g1, baseFrom)
+    var replaced = text.replace(regex, (n, g1, g2 : string) => {
+        var found = parseInt(g2, baseFrom)
         if(isNaN(found)) { //leave things untouched if replacement doesn't work
             return n
         }
         else {
-            return found.toString(baseTo).toUpperCase()
+            var prefix = baseTo === 16 ? "0x" : baseTo === 2 ? "0b" : ""
+            return g1 + prefix + found.toString(baseTo).toUpperCase()
         }
     })
 
