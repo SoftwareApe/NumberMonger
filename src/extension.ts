@@ -134,8 +134,13 @@ function getPrefix(base : number) : string {
     }
 }
 
+function getRegex(base : number) : RegExp {
+    var regex = base === 16 ? /(\-?)(?:0x)?([a-fA-F0-9]+)/g : base === 10 ? /(\-?)([0-9]+)/g : /(\-?)(?:0b)?([0-1]+)/g
+    return regex
+}
+
 export function convertStringBaseToBase(text : string, baseFrom : number, baseTo : number, isPrefixed: boolean) : string {
-    var regex = baseFrom === 16 ? /(\-?)(?:0x)?([a-fA-F0-9]+)/g : baseFrom === 10 ? /(\-?)([0-9]+)/g : /(\-?)(?:0b)?([0-1]+)/g
+    var regex = getRegex(baseFrom)
     
     var replaced = text.replace(regex, (n, g1, g2 : string) => {
         var found = parseInt(g2, baseFrom)
