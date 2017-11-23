@@ -93,9 +93,19 @@ function convertBaseToBase(baseFrom : number, baseTo :number) {
     var selections = editor.selections
     var selectedText = selections.map(s => editor.document.getText(s))
 
-    var replacements = selectedText.map(t => convertStringBaseToBase(t, baseFrom, baseTo, true))
+    function replace(prefix : boolean) {
+        var replacements = selectedText.map(t => convertStringBaseToBase(t, baseFrom, baseTo, prefix))
+        
+        replaceSelections(editor, selections, replacements)
+    }
 
-    replaceSelections(editor, selections, replacements)
+    var prompt = "Add " + getPrefix(baseTo) + " prefix? (y)"
+    if(prompt != "") {
+        promptUserYesNo(prompt, true, replace)
+    }
+    else { //no known prefix for this base
+        replace(false)
+    }
 }
 
 function getPrefix(base : number) : string {
@@ -165,7 +175,7 @@ function promptUserInteger(prompt : string, defaultVal : number, callback : (val
 
 function promptUserYesNo(prompt : string, defaultVal : boolean, callback : (value : boolean) => any) : void {
     promptUser(prompt + " [y/n]", v => {
-        var b = defaultVal ? v.startsWith("y") : !v.startsWith("n")   
+        var b = defaultVal ? !v.startsWith("n") : v.startsWith("y")   
         callback(b)
     })
 }
