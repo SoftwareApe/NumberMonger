@@ -19,6 +19,9 @@
     "onCommand:extension.createSequenceDec",
     "onCommand:extension.createSequenceHex",
     "onCommand:extension.createSequenceBin",
+    "onCommand:extension.createRandomSequenceDec",
+    "onCommand:extension.createRandomSequenceHex",
+    "onCommand:extension.createRandomSequenceBin",
     "onCommand:extension.convertHexToDec",
     "onCommand:extension.convertDecToHex",
     "onCommand:extension.convertBinToDec",
@@ -41,15 +44,27 @@
       },
       {
         "command": "extension.createSequenceDec",
-        "title": "Create Sequence"
+        "title": "Insert Sequence"
       },
       {
         "command": "extension.createSequenceHex",
-        "title": "Create Sequence (Hexadecimal)"
+        "title": "Insert Sequence (Hexadecimal)"
       },
       {
         "command": "extension.createSequenceBin",
-        "title": "Create Sequence (Binary)"
+        "title": "Insert Sequence (Binary)"
+      },
+      {
+        "command": "extension.createRandomSequenceDec",
+        "title": "Insert Random Sequence"
+      },
+      {
+        "command": "extension.createRandomSequenceHex",
+        "title": "Insert Random Sequence (Hexadecimal)"
+      },
+      {
+        "command": "extension.createRandomSequenceBin",
+        "title": "Insert Random Sequence (Binary)"
       },
       {
         "command": "extension.convertHexToDec",

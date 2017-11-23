@@ -44,6 +44,18 @@ export function activate(context: vscode.ExtensionContext) {
             "callback" : createSequenceBin
         },
         {
+            "name" : "extension.createRandomSequenceDec",
+            "callback" : createRandomSequenceDec
+        },
+        {
+            "name" : "extension.createRandomSequenceHex",
+            "callback" : createRandomSequenceHex
+        },
+        {
+            "name" : "extension.createRandomSequenceBin",
+            "callback" : createRandomSequenceBin
+        },
+        {
           "name": "extension.convertHexToDec",
           "callback": convertHexToDec
         },
@@ -151,6 +163,18 @@ function createSequenceBin() {
     createSequenceAny(2)    
 }
 
+function createRandomSequenceDec() {
+    createRandomSequenceAny(10)    
+}
+
+function createRandomSequenceHex() {
+    createRandomSequenceAny(16)    
+}
+
+function createRandomSequenceBin() {
+    createRandomSequenceAny(2)    
+}
+
 function replaceSelections(editor : vscode.TextEditor, selections : vscode.Selection[], replacement : string[]) {
     editor.edit(function (edit: vscode.TextEditorEdit): void {
         selections.forEach((s: vscode.Selection, i: number) => {
@@ -186,23 +210,41 @@ function createSequenceAny(base : number) {
         return // No open text editor => do nothing
     }
 
-    promptUserInteger('Sequence start (0)', 0, 
-        start => {
-            promptUserInteger('Sequence step size (1)', 1,
-                stepSize => {
-                    promptUserYesNo('Right align? (n)', false,
-                        isRightAligned => {
-                            promptUserYesNo('Zero pad? (n)', false,
-                                isZeroPadded => { 
-                                    var selections = editor.selections;
-                                    var nValues = selections.length
-                                    var sequence = createSequence(start, nValues, stepSize)
-                                    var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
-                                
-                                    replaceSelections(editor, selections, output)
-                            })
-                    })
-            })    
+    promptUserInteger('Sequence start (0)', 0, start => {
+        promptUserInteger('Sequence step size (1)', 1, stepSize => {
+            promptUserYesNo('Right align? (n)', false, isRightAligned => {
+                promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
+                        var selections = editor.selections;
+                        var nValues = selections.length
+                        var sequence = createSequence(start, nValues, stepSize)
+                        var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
+                    
+                        replaceSelections(editor, selections, output)
+                })
+            })
+        })    
+    })
+}
+
+function createRandomSequenceAny(base : number) {
+    var editor = vscode.window.activeTextEditor
+    if (!editor) {
+        return // No open text editor => do nothing
+    }
+
+    promptUserInteger('Min (0) [int]', 0, min => {
+        promptUserInteger('Max (4294967295) [int]', 4294967295, max => {
+            promptUserYesNo('Right align? (n)', false, isRightAligned => {
+                promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
+                        var selections = editor.selections;
+                        var nValues = selections.length
+                        var sequence = createRandomSequence(min, max, nValues)
+                        var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
+                    
+                        replaceSelections(editor, selections, output)
+                })
+            })
+        })    
     })
 }
 
@@ -283,6 +325,21 @@ export function createSequence(start : number, nValues : number, stepSize : numb
     }
 
     return seq
+}
+
+export function createRandomSequence(min : number, max : number, nValues : number) : number[] {
+    var seq = [];
+    
+    for (var i = 0; i < nValues; ++i) {
+        seq.push(getRandomInt(min, max));
+    }
+
+    return seq
+}
+
+function getRandomInt(min : number, max : number) : number
+{
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // this method is called when your extension is deactivated
