@@ -12,7 +12,7 @@ import sprintfJs = require('sprintf-js')
 export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "numbermonger" is now active!');
+    console.log('Congratulations, your extension "NumberMonger" is now active!');
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
@@ -294,8 +294,22 @@ function getSelectedTexts() : string[] {
 } 
 
 export function sumSequence(textSelections : string[], base : number) : number {
-    //try to convert sequence of numbers
-    var sum = textSelections.map(t => parseInt(t, base)).reduce((a, b) => a + b, 0)
+    //function for summing up the numbers in a single selection
+    var regex = getRegex(base)
+    function sumSingle(text: string) : number {
+        var matches : string[] = []
+        var found : RegExpExecArray
+        while (found = regex.exec(text)) {
+            //first group is the sign, second group is the number, in case there are prefixes in between
+            matches.push(found[1] + found[2])
+        }
+
+        var sum = matches.map(v => parseInt(v, base)).reduce((a, b) => a + b, 0)
+        return sum
+    }
+    
+    //sum up over the sums of the individual selections
+    var sum = textSelections.map(sumSingle).reduce((a, b) => a + b, 0)
 
     return sum
 }
