@@ -10,6 +10,7 @@ import * as assert from 'assert'
 // as well as import your extension to test it
 import * as vscode from 'vscode'
 import * as myExtension from '../extension'
+import * as convert from '../convert'
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Sum Sequence tests", () => {
@@ -78,14 +79,14 @@ suite("Create Sequence tests", () => {
     })
 
     test("Base to base conversion", () => {
-        assert.equal("", myExtension.convertStringBaseToBase("", 10, 16, true))
-        assert.equal("0x1", myExtension.convertStringBaseToBase("1", 10, 16, true))
-        assert.equal("0xA", myExtension.convertStringBaseToBase("10", 10, 16, true))
-        assert.equal("[0xAu]", myExtension.convertStringBaseToBase("[10u]", 10, 16, true))
-        assert.equal("[255u]", myExtension.convertStringBaseToBase("[0xFFu]", 16, 10, true))
-        assert.equal("[255u, 16u]", myExtension.convertStringBaseToBase("[0xFFu, 0x10u]", 16, 10, true))
-        assert.equal("{5, 2}", myExtension.convertStringBaseToBase("{0b101, 10}", 2, 10, true))
-        assert.equal("{-0b101, 0b10}", myExtension.convertStringBaseToBase("{-5, 2}", 10, 2, true))
-        assert.equal("16", myExtension.convertStringBaseToBase("16", 2, 10, true)) //no conversion if it doesn't make sense
+        assert.equal("", convert.convertStringBaseToBase("", 10, 16, true))
+        assert.equal("0x1", convert.convertStringBaseToBase("1", 10, 16, true))
+        assert.equal("0xA", convert.convertStringBaseToBase("10", 10, 16, true))
+        assert.equal("[0xAu]", convert.convertStringBaseToBase("[10u]", 10, 16, true))
+        assert.equal("[255u]", convert.convertStringBaseToBase("[0xFFu]", 16, 10, true))
+        assert.equal("[255u, 16u]", convert.convertStringBaseToBase("[0xFFu, 0x10u]", 16, 10, true))
+        assert.equal("{5, 2}", convert.convertStringBaseToBase("{0b101, 10}", 2, 10, true))
+        assert.equal("{-0b101, 0b10}", convert.convertStringBaseToBase("{-5, 2}", 10, 2, true))
+        assert.equal("16", convert.convertStringBaseToBase("16", 2, 10, true)) //no conversion if it doesn't make sense
     })
 })
