@@ -4,6 +4,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode'
 
+import * as editorIO from './editorIO'
+
 import leftPad = require('left-pad')
 import sprintfJs = require('sprintf-js')
 
@@ -108,12 +110,12 @@ function convertBaseToBase(baseFrom : number, baseTo :number) {
     function replace(prefix : boolean) {
         var replacements = selectedText.map(t => convertStringBaseToBase(t, baseFrom, baseTo, prefix))
         
-        replaceSelections(editor, selections, replacements)
+        editorIO.replaceSelections(editor, selections, replacements)
     }
 
     var prompt = "Add " + getPrefix(baseTo) + " prefix? (y)"
     if(prompt != "") {
-        promptUserYesNo(prompt, true, replace)
+        editorIO.promptUserYesNo(prompt, true, replace)
     }
     else { //no known prefix for this base
         replace(false)
@@ -180,51 +182,22 @@ function createRandomSequenceBin() {
     createRandomSequenceAny(2)    
 }
 
-function replaceSelections(editor : vscode.TextEditor, selections : vscode.Selection[], replacement : string[]) {
-    editor.edit(function (edit: vscode.TextEditorEdit): void {
-        selections.forEach((s: vscode.Selection, i: number) => {
-            edit.replace(s, replacement[i])
-        })
-    })
-}
-
-function promptUser(prompt : string, callback : (value : string) => any) : void {
-    vscode.window.showInputBox({prompt : prompt}).then(v => callback(v), r => {return})
-}
-
-function promptUserInteger(prompt : string, defaultVal : number, callback : (value : number) => any) : void {
-    promptUser(prompt, v => {
-        var n = parseInt(v)
-        if(isNaN(n)) {
-            n = defaultVal
-        }
-        callback(n)
-    })
-}
-
-function promptUserYesNo(prompt : string, defaultVal : boolean, callback : (value : boolean) => any) : void {
-    promptUser(prompt + " [y/n]", v => {
-        var b = defaultVal ? !v.startsWith("n") : v.startsWith("y")   
-        callback(b)
-    })
-}
-
 function createSequenceAny(base : number) {
     var editor = vscode.window.activeTextEditor
     if (!editor) {
         return // No open text editor => do nothing
     }
 
-    promptUserInteger('Sequence start (0)', 0, start => {
-        promptUserInteger('Sequence step size (1)', 1, stepSize => {
-            promptUserYesNo('Right align? (n)', false, isRightAligned => {
-                promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
+    editorIO.promptUserInteger('Sequence start (0)', 0, start => {
+        editorIO.promptUserInteger('Sequence step size (1)', 1, stepSize => {
+            editorIO.promptUserYesNo('Right align? (n)', false, isRightAligned => {
+                editorIO.promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
                         var selections = editor.selections;
                         var nValues = selections.length
                         var sequence = createSequence(start, nValues, stepSize)
                         var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
                     
-                        replaceSelections(editor, selections, output)
+                        editorIO.replaceSelections(editor, selections, output)
                 })
             })
         })    
@@ -237,16 +210,16 @@ function createRandomSequenceAny(base : number) {
         return // No open text editor => do nothing
     }
 
-    promptUserInteger('Min (0) [int]', 0, min => {
-        promptUserInteger('Max (4294967295) [int]', 4294967295, max => {
-            promptUserYesNo('Right align? (n)', false, isRightAligned => {
-                promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
+    editorIO.promptUserInteger('Min (0) [int]', 0, min => {
+        editorIO.promptUserInteger('Max (4294967295) [int]', 4294967295, max => {
+            editorIO.promptUserYesNo('Right align? (n)', false, isRightAligned => {
+                editorIO.promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
                         var selections = editor.selections;
                         var nValues = selections.length
                         var sequence = createRandomSequence(min, max, nValues)
                         var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
                     
-                        replaceSelections(editor, selections, output)
+                        editorIO.replaceSelections(editor, selections, output)
                 })
             })
         })    
@@ -254,15 +227,15 @@ function createRandomSequenceAny(base : number) {
 }
 
 function sumSequenceDec() {
-    printSum(sumSequence(getSelectedTexts(), 10))
+    printSum(sumSequence(editorIO.getSelectedTexts(), 10))
 }
 
 function sumSequenceHex() {
-    printSum(sumSequence(getSelectedTexts(), 16))
+    printSum(sumSequence(editorIO.getSelectedTexts(), 16))
 }
 
 function sumSequenceBin() {
-    printSum(sumSequence(getSelectedTexts(), 2))
+    printSum(sumSequence(editorIO.getSelectedTexts(), 2))
 }
 
 function printSum(sum : number) {
@@ -273,25 +246,7 @@ function printSum(sum : number) {
     var displayText = isNumber ? "Sum of sequence: " + sum : "Error: Couldn't parse numbers in sequence."
     vscode.window.showInformationMessage(displayText);
 }
-
-function getSelectedTexts() : string[] {
-    var editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        return []; // No open text editor
-    }
-
-    var texts : string[] = []
-    var selections = editor.selections;
-    
-    if(selections.length > 1) { // user used multiple selections
-        texts = selections.map(s => editor.document.getText(s))
-    } else if(selections.length === 1) { // single selection => first need to split on newlines
-        var text = editor.document.getText(selections[0])
-        texts = text.split(/\r?\n/)
-    }
-
-    return texts
-} 
+ 
 
 export function sumSequence(textSelections : string[], base : number) : number {
     //function for summing up the numbers in a single selection
