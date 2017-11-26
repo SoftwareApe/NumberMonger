@@ -12,40 +12,41 @@ import * as vscode from 'vscode'
 import * as myExtension from '../extension'
 import * as convert from '../convert'
 import * as sequences from '../sequences'
+import * as summation from '../summation'
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Sum Sequence tests", () => {
     test("Sum decimals", () => {
-        assert.equal(0, myExtension.sumSequence([], 10))
-        assert.equal(0, myExtension.sumSequence([""], 10))
-        assert.equal(1, myExtension.sumSequence(["1"], 10))
-        assert.equal(6, myExtension.sumSequence(["1", "2", "3"], 10))
-        assert.equal(6, myExtension.sumSequence(["1    ", " 2 ", "   3"], 10))
-        assert.equal(13, myExtension.sumSequence(["1", "2", "10"], 10))
-        assert.equal(9, myExtension.sumSequence(["1", "-2", "10"], 10))
-        assert.equal(3, myExtension.sumSequence(["1", "2", "af"], 10))
-        assert.equal(45, myExtension.sumSequence(["{1, 2, 3}", "{4, 5, 6}", "{7, 8, 9}"], 10))       
+        assert.equal(0, summation.sumSequence([], 10))
+        assert.equal(0, summation.sumSequence([""], 10))
+        assert.equal(1, summation.sumSequence(["1"], 10))
+        assert.equal(6, summation.sumSequence(["1", "2", "3"], 10))
+        assert.equal(6, summation.sumSequence(["1    ", " 2 ", "   3"], 10))
+        assert.equal(13, summation.sumSequence(["1", "2", "10"], 10))
+        assert.equal(9, summation.sumSequence(["1", "-2", "10"], 10))
+        assert.equal(3, summation.sumSequence(["1", "2", "af"], 10))
+        assert.equal(45, summation.sumSequence(["{1, 2, 3}", "{4, 5, 6}", "{7, 8, 9}"], 10))       
     })
     
     test("Sum hexadecimals", () => {
-        assert.equal(0, myExtension.sumSequence([], 16))
-        assert.equal(0, myExtension.sumSequence([""], 16))
-        assert.equal(1, myExtension.sumSequence(["1"], 16))
-        assert.equal(6, myExtension.sumSequence(["1", "2", "3"], 16))
-        assert.equal(17, myExtension.sumSequence(["-1", "2", "10"], 16))
-        assert.equal(178, myExtension.sumSequence(["1", "2", "af"], 16))        
-        assert.equal(-172, myExtension.sumSequence(["0x1", "0x2", "-0xaf"], 16))
-        assert.equal(5, myExtension.sumSequence(["{0x1, 0x2, 0x3}", "{0x4, 0x5, 0x6}", "{-0x10, 0x0, 0x0}"], 16))              
+        assert.equal(0, summation.sumSequence([], 16))
+        assert.equal(0, summation.sumSequence([""], 16))
+        assert.equal(1, summation.sumSequence(["1"], 16))
+        assert.equal(6, summation.sumSequence(["1", "2", "3"], 16))
+        assert.equal(17, summation.sumSequence(["-1", "2", "10"], 16))
+        assert.equal(178, summation.sumSequence(["1", "2", "af"], 16))        
+        assert.equal(-172, summation.sumSequence(["0x1", "0x2", "-0xaf"], 16))
+        assert.equal(5, summation.sumSequence(["{0x1, 0x2, 0x3}", "{0x4, 0x5, 0x6}", "{-0x10, 0x0, 0x0}"], 16))              
     })
 
     test("Sum binary", () => {
-        assert.equal(0, myExtension.sumSequence([], 2))
-        assert.equal(0, myExtension.sumSequence([""], 2))
-        assert.equal(1, myExtension.sumSequence(["1"], 2))
-        assert.equal(1, myExtension.sumSequence(["1", "2", "3"], 2))
-        assert.equal(-1, myExtension.sumSequence(["1", "0", "-10"], 2))        
-        assert.equal(1, myExtension.sumSequence(["-0b1", "0b0", "0b10"], 2))    
-        assert.equal(20, myExtension.sumSequence(["{0b1, 0b10, 0b11}", "{0b100, 0b101, 0b110}", "{-0b1, 0x0, 0x0}"], 2))       
+        assert.equal(0, summation.sumSequence([], 2))
+        assert.equal(0, summation.sumSequence([""], 2))
+        assert.equal(1, summation.sumSequence(["1"], 2))
+        assert.equal(1, summation.sumSequence(["1", "2", "3"], 2))
+        assert.equal(-1, summation.sumSequence(["1", "0", "-10"], 2))        
+        assert.equal(1, summation.sumSequence(["-0b1", "0b0", "0b10"], 2))    
+        assert.equal(20, summation.sumSequence(["{0b1, 0b10, 0b11}", "{0b100, 0b101, 0b110}", "{-0b1, 0x0, 0x0}"], 2))       
     })
 
 })
