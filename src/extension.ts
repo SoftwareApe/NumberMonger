@@ -6,9 +6,7 @@ import * as vscode from 'vscode'
 
 import * as editorIO from './editorIO'
 import * as convert from './convert'
-
-import leftPad = require('left-pad')
-import sprintfJs = require('sprintf-js')
+import * as sequences from './sequences'
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -36,27 +34,27 @@ export function activate(context: vscode.ExtensionContext) {
         },
         {
             "name" : "extension.createSequenceDec",
-            "callback" : createSequenceDec
+            "callback" : sequences.createSequenceDec
         },
         {
             "name" : "extension.createSequenceHex",
-            "callback" : createSequenceHex
+            "callback" : sequences.createSequenceHex
         },
         {
             "name" : "extension.createSequenceBin",
-            "callback" : createSequenceBin
+            "callback" : sequences.createSequenceBin
         },
         {
             "name" : "extension.createRandomSequenceDec",
-            "callback" : createRandomSequenceDec
+            "callback" : sequences.createRandomSequenceDec
         },
         {
             "name" : "extension.createRandomSequenceHex",
-            "callback" : createRandomSequenceHex
+            "callback" : sequences.createRandomSequenceHex
         },
         {
             "name" : "extension.createRandomSequenceBin",
-            "callback" : createRandomSequenceBin
+            "callback" : sequences.createRandomSequenceBin
         },
         {
           "name": "extension.convertHexToDec",
@@ -80,74 +78,6 @@ export function activate(context: vscode.ExtensionContext) {
     commands.map(command => {
         var subscription = vscode.commands.registerCommand(command.name, command.callback)
         context.subscriptions.push(subscription)
-    })
-}
-
-function createSequenceDec() {
-    createSequenceAny(10)    
-}
-
-function createSequenceHex() {
-    createSequenceAny(16)    
-}
-
-function createSequenceBin() {
-    createSequenceAny(2)    
-}
-
-function createRandomSequenceDec() {
-    createRandomSequenceAny(10)    
-}
-
-function createRandomSequenceHex() {
-    createRandomSequenceAny(16)    
-}
-
-function createRandomSequenceBin() {
-    createRandomSequenceAny(2)    
-}
-
-function createSequenceAny(base : number) {
-    var editor = vscode.window.activeTextEditor
-    if (!editor) {
-        return // No open text editor => do nothing
-    }
-
-    editorIO.promptUserInteger('Sequence start (0)', 0, start => {
-        editorIO.promptUserInteger('Sequence step size (1)', 1, stepSize => {
-            editorIO.promptUserYesNo('Right align? (n)', false, isRightAligned => {
-                editorIO.promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
-                        var selections = editor.selections;
-                        var nValues = selections.length
-                        var sequence = createSequence(start, nValues, stepSize)
-                        var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
-                    
-                        editorIO.replaceSelections(editor, selections, output)
-                })
-            })
-        })    
-    })
-}
-
-function createRandomSequenceAny(base : number) {
-    var editor = vscode.window.activeTextEditor
-    if (!editor) {
-        return // No open text editor => do nothing
-    }
-
-    editorIO.promptUserInteger('Min (0) [int]', 0, min => {
-        editorIO.promptUserInteger('Max (4294967295) [int]', 4294967295, max => {
-            editorIO.promptUserYesNo('Right align? (n)', false, isRightAligned => {
-                editorIO.promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
-                        var selections = editor.selections;
-                        var nValues = selections.length
-                        var sequence = createRandomSequence(min, max, nValues)
-                        var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
-                    
-                        editorIO.replaceSelections(editor, selections, output)
-                })
-            })
-        })    
     })
 }
 
@@ -192,53 +122,6 @@ export function sumSequence(textSelections : string[], base : number) : number {
     var sum = textSelections.map(sumSingle).reduce((a, b) => a + b, 0)
 
     return sum
-}
-
-export function numbersToString(numbers : number[], base : number, isRightAligned : boolean, isZeroPadded : boolean) : string[] {
-    //separate signs and string representation
-    var strings = numbers.map(n => Math.abs(n).toString(base).toUpperCase())
-    var signs = numbers.map(n => n < 0 ? "-" : "")
-
-    var formatString : string = "%s%s"
-    if(isZeroPadded) {
-        var maxAbsLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
-        formatString = "%s%0" + maxAbsLength + "s"
-    }
-
-    strings = strings.map((s, i) => sprintfJs.sprintf(formatString, signs[i], s))
-    
-    // right align
-    if(isRightAligned) { 
-        var maxLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
-        strings = strings.map(s => leftPad(s, maxLength))
-    }
-
-    return strings
-}
-
-export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
-    var seq = [];
-    
-    for (var i = 0; i < nValues; ++i) {
-        seq.push(start + i * stepSize);
-    }
-
-    return seq
-}
-
-export function createRandomSequence(min : number, max : number, nValues : number) : number[] {
-    var seq = [];
-    
-    for (var i = 0; i < nValues; ++i) {
-        seq.push(getRandomInt(min, max));
-    }
-
-    return seq
-}
-
-function getRandomInt(min : number, max : number) : number
-{
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // this method is called when your extension is deactivated

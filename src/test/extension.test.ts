@@ -11,6 +11,7 @@ import * as assert from 'assert'
 import * as vscode from 'vscode'
 import * as myExtension from '../extension'
 import * as convert from '../convert'
+import * as sequences from '../sequences'
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Sum Sequence tests", () => {
@@ -51,31 +52,31 @@ suite("Sum Sequence tests", () => {
 
 suite("Create Sequence tests", () => {
     test("Create number sequence", () => {    
-        assert.deepStrictEqual([], myExtension.createSequence(2, 0, 10))    
-        assert.deepStrictEqual([2], myExtension.createSequence(2, 1, 10))    
-        assert.deepStrictEqual([0, 1, 2], myExtension.createSequence(0, 3, 1))    
-        assert.deepStrictEqual([0, 4, 8], myExtension.createSequence(0, 3, 4))    
-        assert.deepStrictEqual([1, 5, 9], myExtension.createSequence(1, 3, 4))    
-        assert.deepStrictEqual([0, -4, -8], myExtension.createSequence(0, 3, -4))    
-        assert.deepStrictEqual([12, 8, 4, 0, -4, -8, -12], myExtension.createSequence(12, 7, -4))    
+        assert.deepStrictEqual([], sequences.createSequence(2, 0, 10))    
+        assert.deepStrictEqual([2], sequences.createSequence(2, 1, 10))    
+        assert.deepStrictEqual([0, 1, 2], sequences.createSequence(0, 3, 1))    
+        assert.deepStrictEqual([0, 4, 8], sequences.createSequence(0, 3, 4))    
+        assert.deepStrictEqual([1, 5, 9], sequences.createSequence(1, 3, 4))    
+        assert.deepStrictEqual([0, -4, -8], sequences.createSequence(0, 3, -4))    
+        assert.deepStrictEqual([12, 8, 4, 0, -4, -8, -12], sequences.createSequence(12, 7, -4))    
     })
 
     test("Convert sequences to string", () => {    
-        assert.deepStrictEqual([], myExtension.numbersToString([], 10, false, false))  
-        assert.deepStrictEqual(["0", "1", "2"], myExtension.numbersToString([0, 1, 2], 10, false, false))  
-        assert.deepStrictEqual(["0", "10", "100"], myExtension.numbersToString([0, 10, 100], 10, false, false))  
-        assert.deepStrictEqual(["-3", "0", "3"], myExtension.numbersToString([-3, 0, 3], 10, false, false))  
-        assert.deepStrictEqual(["0", "A", "64"], myExtension.numbersToString([0, 10, 100], 16, false, false))  
-        assert.deepStrictEqual(["0", "10", "11"], myExtension.numbersToString([0, 2, 3], 2, false, false))  
-        assert.deepStrictEqual([" 0", "10", "11"], myExtension.numbersToString([0, 2, 3], 2, true, false))
-        assert.deepStrictEqual(["000", "010", "200"], myExtension.numbersToString([0, 10, 200], 10, true, true))  
-        assert.deepStrictEqual(["00", "10", "11"], myExtension.numbersToString([0, 2, 3], 2, true, true))
-        assert.deepStrictEqual(["00", "0A", "64"], myExtension.numbersToString([0, 10, 100], 16, true, true))
-        assert.deepStrictEqual(["000", "010", "200"], myExtension.numbersToString([0, 10, 200], 10, false, true))  
-        assert.deepStrictEqual(["00", "10", "11"], myExtension.numbersToString([0, 2, 3], 2, false, true))
-        assert.deepStrictEqual(["00", "0A", "64"], myExtension.numbersToString([0, 10, 100], 16, false, true))
-        assert.deepStrictEqual(["00", "-0A", "-64"], myExtension.numbersToString([0, -10, -100], 16, false, true))   
-        assert.deepStrictEqual([" 00", "-0A", "-64"], myExtension.numbersToString([0, -10, -100], 16, true, true))   
+        assert.deepStrictEqual([], sequences.numbersToString([], 10, false, false))  
+        assert.deepStrictEqual(["0", "1", "2"], sequences.numbersToString([0, 1, 2], 10, false, false))  
+        assert.deepStrictEqual(["0", "10", "100"], sequences.numbersToString([0, 10, 100], 10, false, false))  
+        assert.deepStrictEqual(["-3", "0", "3"], sequences.numbersToString([-3, 0, 3], 10, false, false))  
+        assert.deepStrictEqual(["0", "A", "64"], sequences.numbersToString([0, 10, 100], 16, false, false))  
+        assert.deepStrictEqual(["0", "10", "11"], sequences.numbersToString([0, 2, 3], 2, false, false))  
+        assert.deepStrictEqual([" 0", "10", "11"], sequences.numbersToString([0, 2, 3], 2, true, false))
+        assert.deepStrictEqual(["000", "010", "200"], sequences.numbersToString([0, 10, 200], 10, true, true))  
+        assert.deepStrictEqual(["00", "10", "11"], sequences.numbersToString([0, 2, 3], 2, true, true))
+        assert.deepStrictEqual(["00", "0A", "64"], sequences.numbersToString([0, 10, 100], 16, true, true))
+        assert.deepStrictEqual(["000", "010", "200"], sequences.numbersToString([0, 10, 200], 10, false, true))  
+        assert.deepStrictEqual(["00", "10", "11"], sequences.numbersToString([0, 2, 3], 2, false, true))
+        assert.deepStrictEqual(["00", "0A", "64"], sequences.numbersToString([0, 10, 100], 16, false, true))
+        assert.deepStrictEqual(["00", "-0A", "-64"], sequences.numbersToString([0, -10, -100], 16, false, true))   
+        assert.deepStrictEqual([" 00", "-0A", "-64"], sequences.numbersToString([0, -10, -100], 16, true, true))   
     })
 
     test("Base to base conversion", () => {

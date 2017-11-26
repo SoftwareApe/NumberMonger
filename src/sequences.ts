@@ -1,0 +1,121 @@
+import * as vscode from 'vscode'
+import * as editorIO from './editorIO'
+
+import leftPad = require('left-pad')
+import sprintfJs = require('sprintf-js')
+
+export function createSequenceDec() {
+    createSequenceAny(10)    
+}
+
+export function createSequenceHex() {
+    createSequenceAny(16)    
+}
+
+export function createSequenceBin() {
+    createSequenceAny(2)    
+}
+
+export function createRandomSequenceDec() {
+    createRandomSequenceAny(10)    
+}
+
+export function createRandomSequenceHex() {
+    createRandomSequenceAny(16)    
+}
+
+export function createRandomSequenceBin() {
+    createRandomSequenceAny(2)    
+}
+
+function createSequenceAny(base : number) {
+    var editor = vscode.window.activeTextEditor
+    if (!editor) {
+        return // No open text editor => do nothing
+    }
+
+    editorIO.promptUserInteger('Sequence start (0)', 0, start => {
+        editorIO.promptUserInteger('Sequence step size (1)', 1, stepSize => {
+            editorIO.promptUserYesNo('Right align? (n)', false, isRightAligned => {
+                editorIO.promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
+                        var selections = editor.selections;
+                        var nValues = selections.length
+                        var sequence = createSequence(start, nValues, stepSize)
+                        var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
+                    
+                        editorIO.replaceSelections(editor, selections, output)
+                })
+            })
+        })    
+    })
+}
+
+function createRandomSequenceAny(base : number) {
+    var editor = vscode.window.activeTextEditor
+    if (!editor) {
+        return // No open text editor => do nothing
+    }
+
+    editorIO.promptUserInteger('Min (0) [int]', 0, min => {
+        editorIO.promptUserInteger('Max (4294967295) [int]', 4294967295, max => {
+            editorIO.promptUserYesNo('Right align? (n)', false, isRightAligned => {
+                editorIO.promptUserYesNo('Zero pad? (n)', false, isZeroPadded => { 
+                        var selections = editor.selections;
+                        var nValues = selections.length
+                        var sequence = createRandomSequence(min, max, nValues)
+                        var output = numbersToString(sequence, base, isRightAligned, isZeroPadded)
+                    
+                        editorIO.replaceSelections(editor, selections, output)
+                })
+            })
+        })    
+    })
+}
+
+
+export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
+    var seq = [];
+    
+    for (var i = 0; i < nValues; ++i) {
+        seq.push(start + i * stepSize);
+    }
+
+    return seq
+}
+
+export function createRandomSequence(min : number, max : number, nValues : number) : number[] {
+    var seq = [];
+    
+    for (var i = 0; i < nValues; ++i) {
+        seq.push(getRandomInt(min, max));
+    }
+
+    return seq
+}
+
+function getRandomInt(min : number, max : number) : number
+{
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function numbersToString(numbers : number[], base : number, isRightAligned : boolean, isZeroPadded : boolean) : string[] {
+    //separate signs and string representation
+    var strings = numbers.map(n => Math.abs(n).toString(base).toUpperCase())
+    var signs = numbers.map(n => n < 0 ? "-" : "")
+
+    var formatString : string = "%s%s"
+    if(isZeroPadded) {
+        var maxAbsLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
+        formatString = "%s%0" + maxAbsLength + "s"
+    }
+
+    strings = strings.map((s, i) => sprintfJs.sprintf(formatString, signs[i], s))
+    
+    // right align
+    if(isRightAligned) { 
+        var maxLength = strings.map(s => s.length).reduce((a, b) => Math.max(a, b), 0)
+        strings = strings.map(s => leftPad(s, maxLength))
+    }
+
+    return strings
+}
