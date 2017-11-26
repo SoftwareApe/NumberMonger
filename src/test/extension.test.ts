@@ -62,33 +62,50 @@ suite("Create Sequence tests", () => {
         assert.deepStrictEqual([12, 8, 4, 0, -4, -8, -12], sequences.createSequence(12, 7, -4))    
     })
 
-    test("Convert sequences to string", () => {    
+    test("Display sequences as string, dec", () => {    
         assert.deepStrictEqual([], sequences.numbersToString([], 10, false, false))  
         assert.deepStrictEqual(["0", "1", "2"], sequences.numbersToString([0, 1, 2], 10, false, false))  
         assert.deepStrictEqual(["0", "10", "100"], sequences.numbersToString([0, 10, 100], 10, false, false))  
         assert.deepStrictEqual(["-3", "0", "3"], sequences.numbersToString([-3, 0, 3], 10, false, false))  
-        assert.deepStrictEqual(["0", "A", "64"], sequences.numbersToString([0, 10, 100], 16, false, false))  
-        assert.deepStrictEqual(["0", "10", "11"], sequences.numbersToString([0, 2, 3], 2, false, false))  
-        assert.deepStrictEqual([" 0", "10", "11"], sequences.numbersToString([0, 2, 3], 2, true, false))
         assert.deepStrictEqual(["000", "010", "200"], sequences.numbersToString([0, 10, 200], 10, true, true))  
-        assert.deepStrictEqual(["00", "10", "11"], sequences.numbersToString([0, 2, 3], 2, true, true))
-        assert.deepStrictEqual(["00", "0A", "64"], sequences.numbersToString([0, 10, 100], 16, true, true))
         assert.deepStrictEqual(["000", "010", "200"], sequences.numbersToString([0, 10, 200], 10, false, true))  
-        assert.deepStrictEqual(["00", "10", "11"], sequences.numbersToString([0, 2, 3], 2, false, true))
+    })
+    
+    test("Display sequences as string, hex", () => {
+        assert.deepStrictEqual(["00", "0A", "64"], sequences.numbersToString([0, 10, 100], 16, true, true))
+        assert.deepStrictEqual(["0", "A", "64"], sequences.numbersToString([0, 10, 100], 16, false, false))  
         assert.deepStrictEqual(["00", "0A", "64"], sequences.numbersToString([0, 10, 100], 16, false, true))
         assert.deepStrictEqual(["00", "-0A", "-64"], sequences.numbersToString([0, -10, -100], 16, false, true))   
         assert.deepStrictEqual([" 00", "-0A", "-64"], sequences.numbersToString([0, -10, -100], 16, true, true))   
     })
+    
+    test("Display sequences as string, bin", () => {
+        assert.deepStrictEqual(["0", "10", "11"], sequences.numbersToString([0, 2, 3], 2, false, false))  
+        assert.deepStrictEqual([" 0", "10", "11"], sequences.numbersToString([0, 2, 3], 2, true, false))
+        assert.deepStrictEqual(["00", "10", "11"], sequences.numbersToString([0, 2, 3], 2, true, true))
+        assert.deepStrictEqual(["00", "10", "11"], sequences.numbersToString([0, 2, 3], 2, false, true))
+    })
+})
 
-    test("Base to base conversion", () => {
+suite("Number conversion tests", () => {
+    test("Base to base conversion, dec -> hex", () => {
         assert.equal("", convert.convertStringBaseToBase("", 10, 16, true))
         assert.equal("0x1", convert.convertStringBaseToBase("1", 10, 16, true))
         assert.equal("0xA", convert.convertStringBaseToBase("10", 10, 16, true))
         assert.equal("[0xAu]", convert.convertStringBaseToBase("[10u]", 10, 16, true))
+    })
+    
+    test("Base to base conversion, hex -> dec", () => {
         assert.equal("[255u]", convert.convertStringBaseToBase("[0xFFu]", 16, 10, true))
         assert.equal("[255u, 16u]", convert.convertStringBaseToBase("[0xFFu, 0x10u]", 16, 10, true))
+    })
+    
+    test("Base to base conversion, bin -> dec", () => {
         assert.equal("{5, 2}", convert.convertStringBaseToBase("{0b101, 10}", 2, 10, true))
-        assert.equal("{-0b101, 0b10}", convert.convertStringBaseToBase("{-5, 2}", 10, 2, true))
         assert.equal("16", convert.convertStringBaseToBase("16", 2, 10, true)) //no conversion if it doesn't make sense
+    })
+    
+    test("Base to base conversion, bin -> dec", () => {
+        assert.equal("{-0b101, 0b10}", convert.convertStringBaseToBase("{-5, 2}", 10, 2, true))
     })
 })
