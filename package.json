@@ -12,6 +12,7 @@
   "categories": [
     "Other"
   ],
+  "icon" : "./numbermonger_log.png",
   "activationEvents": [
     "onCommand:extension.sumSequenceDec",
     "onCommand:extension.sumSequenceHex",
