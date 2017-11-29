@@ -12,7 +12,7 @@
     "categories": [
         "Other"
     ],
-    "icon": "./images/logo.png",
+    "icon": "images/logo.png",
     "activationEvents": [
         "onCommand:extension.sumSequenceDec",
         "onCommand:extension.sumSequenceHex",
