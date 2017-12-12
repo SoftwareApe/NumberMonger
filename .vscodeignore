@@ -1,0 +1,5 @@
+.vscode
+.vscode-test
+**/*.ts
+**/tsconfig.json
+!file.ts
