@@ -33,5 +33,15 @@ Thank you for the amazing Yeoman VSCode extension generator!
 
 ## Release Notes
 
+### 0.1.4
+* Fixed uncaught exception when escaping from user prompts
+
+### 0.1.3
++ Fixed test folder being downloaded with extension from marketplace by adding .vscodeignore
+
+### 0.1.1
+* Added Icon
+* Refactored Code
+
 ### 0.1.0
-First release.
+* First release.
