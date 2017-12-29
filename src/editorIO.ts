@@ -35,7 +35,8 @@ export function replaceSelections(editor : vscode.TextEditor, selections : vscod
 
 
 export function promptUser(prompt : string, callback : (value : string) => any) : void {
-    vscode.window.showInputBox({prompt : prompt}).then(v => callback(v), r => {return})
+    //if user presses escape the promise is actually fulfilled with value *undefined*
+    vscode.window.showInputBox({prompt : prompt}).then(v => { if (v != undefined) { return callback(v) } else { return } }, r => { return })
 }
 
 export function promptUserInteger(prompt : string, defaultVal : number, callback : (value : number) => any) : void {
