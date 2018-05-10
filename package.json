@@ -14,6 +14,7 @@
     ],
     "icon": "images/logo.png",
     "activationEvents": [
+        "onCommand:extension.sumSequenceFloat",
         "onCommand:extension.sumSequenceDec",
         "onCommand:extension.sumSequenceHex",
         "onCommand:extension.sumSequenceBin",
@@ -32,8 +33,12 @@
     "contributes": {
         "commands": [
             {
+                "command": "extension.sumSequenceFloat",
+                "title": "Sum Sequence (floating point)"
+            },
+            {
                 "command": "extension.sumSequenceDec",
-                "title": "Sum Sequence"
+                "title": "Sum Sequence (Integer)"
             },
             {
                 "command": "extension.sumSequenceHex",

@@ -5,7 +5,7 @@ Lightweight extension to VSCode to help you deal with numbers. No settings, ever
 ## Features
 
 NumberMonger lets you
-1. sum up sequences of numbers in decimal, hexidecimal or binary representation
+1. sum up sequences of numbers in floating point, integer, hexidecimal or binary representation
 2. use multiple cursors to insert sequences of numbers with arbitrary initial values and step 
 3. insert sequences of random integers
 4. convert between hexadecimal, binary and decimal numbers
@@ -32,6 +32,9 @@ Thank you for the amazing Yeoman VSCode extension generator!
 ## Known Issues
 
 ## Release Notes
+
+### 0.2.0
+* Support for floating point summation
 
 ### 0.1.4
 * Fixed uncaught exception when escaping from user prompts

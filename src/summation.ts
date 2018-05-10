@@ -2,6 +2,10 @@ import * as editorIO from './editorIO';
 import * as convert from './convert';
 import * as vscode from 'vscode';
 
+export function sumSequenceFloat() : void {
+    printSum(sumSequence(editorIO.getSelectedTexts(), 10));
+}
+
 export function sumSequenceDec() : void {
     printSum(sumSequence(editorIO.getSelectedTexts(), 10));
 }

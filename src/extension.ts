@@ -21,6 +21,10 @@ export function activate(context : vscode.ExtensionContext) : void {
     let commands =
     [
         {
+            'name' : 'extension.sumSequenceFloat',
+            'callback' : summation.sumSequenceFloat
+        },
+        {
             'name' : 'extension.sumSequenceDec',
             'callback' : summation.sumSequenceDec
         },
