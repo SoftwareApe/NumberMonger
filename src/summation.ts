@@ -3,7 +3,7 @@ import * as convert from './convert';
 import * as vscode from 'vscode';
 
 export function sumSequenceFloat() : void {
-    printSum(sumSequence(editorIO.getSelectedTexts(), 10));
+    printSum(sumSequence(editorIO.getSelectedTexts(), 0));
 }
 
 export function sumSequenceDec() : void {
@@ -31,15 +31,22 @@ function printSum(sum : number) : void {
 export function sumSequence(textSelections : string[], base : number) : number {
     // function for summing up the numbers in a single selection
     let regex = convert.getRegex(base);
+    if (base === 0) console.log('regex = ' + regex);
     function sumSingle(text : string) : number {
         let matches : string[] = [];
         let found : RegExpExecArray;
+        if (base === 0) console.log('Applying regex to...' + text);
         while (found = regex.exec(text)) {
             // first group is the sign, second group is the number, in case there are prefixes in between
-            matches.push(found[1] + found[2]);
+            let m = found[1] + found[2];
+            matches.push(m);
+            if (base === 0) console.log('matched ' + m);
         }
-
-        let sum = matches.map(v => parseInt(v, base)).reduce((a, b) => a + b, 0);
+        if (base === 0) console.log('number of matches ' + matches.length);
+        // base 0 is chosen for floating point
+        let parser = v => base === 0 ? parseFloat(v) : parseInt(v, base);
+        let sum = matches.map(v => parser(v)).reduce((a, b) => a + b, 0);
+        if (base === 0) console.log('sum = ' + sum + '\n');
         return sum;
     }
 

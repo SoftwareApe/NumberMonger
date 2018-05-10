@@ -61,10 +61,31 @@ export function convertStringBaseToBase(text : string, baseFrom : number, baseTo
 
 
 export function getRegex(base : number) : RegExp {
-    let regex = base === 16 ? /(\-?)(?:0x)?([a-fA-F0-9]+)/g : base === 10 ? /(\-?)([0-9]+)/g : /(\-?)(?:0b)?([0-1]+)/g;
+    let regex : RegExp;
+    switch (base)
+    {
+        case 0: // floating point special case
+            regex = /(\-?)((?:[0-9]+\.?[0-9]*|[0-9]*\.?[0-9]+)(?:[eE][\+\-]?[0-9]+)?)/g;
+            break;
+        case 10:
+            regex = /(\-?)([0-9]+)/g;
+            break;
+        case 16:
+            regex = /(\-?)(?:0x)?([a-fA-F0-9]+)/g;
+            break;
+        case 2:
+            regex = /(\-?)(?:0b)?([0-1]+)/g;
+            break;
+        default:
+            console.log('Tried to get regex for base ' + base + ', which is not implemented');
+    }
+
     return regex;
 }
 
+export function getRegexFloat() : RegExp {
+    return ;
+}
 
 export function getPrefix(base : number) : string {
     switch (base)

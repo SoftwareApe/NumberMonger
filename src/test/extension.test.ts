@@ -16,17 +16,17 @@ import * as summation from '../summation';
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite('Sum Sequence tests', () => {
-    test('Sum floats', () => {
-        assert.equal(0, summation.sumSequence([], 10));
-        assert.equal(0, summation.sumSequence([''], 10));
-        assert.equal(1, summation.sumSequence(['1.'], 10));
-        assert.equal(6, summation.sumSequence(['1.0', '2.0', '3.0'], 10));
-        assert.equal(4.5, summation.sumSequence(['1e0    ', ' 2e-1 ', '   .3'], 10));
-        assert.equal(121, summation.sumSequence(['1e+0', '2.E+1', '10e1'], 10));
-        assert.equal(10.8, summation.sumSequence(['1', '-.2', '10'], 10));
-        assert.equal(3, summation.sumSequence(['1', '2', 'af'], 10));
-        assert.equal(40.23, summation.sumSequence(['{1.0, 0.2, 0.03}', '{4, 5, 6}', '{7, 8, 9}'], 10));
-    });
+        test('Sum floats', () => {
+            assert.equal(0, summation.sumSequence([], 0));
+            assert.equal(0, summation.sumSequence([''], 0));
+            assert.equal(1, summation.sumSequence(['1.'], 0));
+            assert.equal(6, summation.sumSequence(['1.0', '2.0', '3.0'], 0));
+            assert.equal(1.5, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3'], 0));
+            assert.equal(121, summation.sumSequence(['1e+0', '2.E+1', '10e1'], 0));
+            assert.equal(10.8, summation.sumSequence(['1', '-.2', '10'], 0));
+            assert.equal(3, summation.sumSequence(['1', '2', 'af'], 0));
+            assert.equal(40.230000000000004, summation.sumSequence(['{1.0, 0.2, 0.03}', '{4, 5, 6}', '{7, 8, 9}'], 0)); // floating point rounding error, but ok
+        });
 
     test('Sum decimals', () => {
         assert.equal(0, summation.sumSequence([], 10));
@@ -60,7 +60,6 @@ suite('Sum Sequence tests', () => {
         assert.equal(1, summation.sumSequence(['-0b1', '0b0', '0b10'], 2));
         assert.equal(20, summation.sumSequence(['{0b1, 0b10, 0b11}', '{0b100, 0b101, 0b110}', '{-0b1, 0x0, 0x0}'], 2));
     });
-
 });
 
 suite('Create Sequence tests', () => {
