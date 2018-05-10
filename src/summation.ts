@@ -27,31 +27,31 @@ function printSum(sum : number) : void {
     vscode.window.showInformationMessage(displayText);
 }
 
-
-export function sumSequence(textSelections : string[], base : number) : number {
+function textSelectionToNumbers(textSelections : string[], base : number) : number[] {
     // function for summing up the numbers in a single selection
     let regex = convert.getRegex(base);
-    if (base === 0) console.log('regex = ' + regex);
-    function sumSingle(text : string) : number {
+    function sumSingle(text : string) : number[] {
         let matches : string[] = [];
         let found : RegExpExecArray;
-        if (base === 0) console.log('Applying regex to...' + text);
         while (found = regex.exec(text)) {
             // first group is the sign, second group is the number, in case there are prefixes in between
             let m = found[1] + found[2];
             matches.push(m);
-            if (base === 0) console.log('matched ' + m);
         }
-        if (base === 0) console.log('number of matches ' + matches.length);
         // base 0 is chosen for floating point
         let parser = v => base === 0 ? parseFloat(v) : parseInt(v, base);
-        let sum = matches.map(v => parser(v)).reduce((a, b) => a + b, 0);
-        if (base === 0) console.log('sum = ' + sum + '\n');
-        return sum;
+        let ret = matches.map(v => parser(v));
+        return ret;
     }
 
+    let ret = textSelections.map(sumSingle).reduce((a, b) => a.concat(b), []);
+
+    return ret;
+}
+
+export function sumSequence(textSelections : string[], base : number) : number {
     // sum up over the sums of the individual selections
-    let sum = textSelections.map(sumSingle).reduce((a, b) => a + b, 0);
+    let sum = textSelectionToNumbers(textSelections, base).reduce((a, b) => a + b, 0);
 
     return sum;
 }
