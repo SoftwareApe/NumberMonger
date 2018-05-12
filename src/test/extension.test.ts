@@ -16,49 +16,79 @@ import * as summation from '../summation';
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite('Sum Sequence tests', () => {
-        test('Sum floats', () => {
-            assert.equal(0, summation.sumSequence([], 0));
-            assert.equal(0, summation.sumSequence([''], 0));
-            assert.equal(1, summation.sumSequence(['1.'], 0));
-            assert.equal(6, summation.sumSequence(['1.0', '2.0', '3.0'], 0));
-            assert.equal(1.5, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3'], 0));
-            assert.equal(121, summation.sumSequence(['1e+0', '2.E+1', '10e1'], 0));
-            assert.equal(10.8, summation.sumSequence(['1', '-.2', '10'], 0));
-            assert.equal(3, summation.sumSequence(['1', '2', 'af'], 0));
-            assert.equal(40.230000000000004, summation.sumSequence(['{1.0, 0.2, 0.03}', '{4, 5, 6}', '{7, 8, 9}'], 0)); // floating point rounding error, but ok
-        });
+    test('Sum floats', () => {
+        assert.equal(0, summation.sumSequence([], 0)[0]);
+        assert.equal(0, summation.sumSequence([''], 0)[0]);
+        assert.equal(1, summation.sumSequence(['1.'], 0)[0]);
+        assert.equal(6, summation.sumSequence(['1.0', '2.0', '3.0'], 0)[0]);
+        assert.equal(1.5, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3'], 0)[0]);
+        assert.equal(121, summation.sumSequence(['1e+0', '2.E+1', '10e1'], 0)[0]);
+        assert.equal(10.8, summation.sumSequence(['1', '-.2', '10'], 0)[0]);
+        assert.equal(3, summation.sumSequence(['1', '2', 'af'], 0)[0]);
+        assert.equal(40.230000000000004, summation.sumSequence(['{1.0, 0.2, 0.03}', '{4, 5, 6}', '{7, 8, 9}'], 0)[0]); // floating point rounding error, but ok
+    });
 
     test('Sum decimals', () => {
-        assert.equal(0, summation.sumSequence([], 10));
-        assert.equal(0, summation.sumSequence([''], 10));
-        assert.equal(1, summation.sumSequence(['1'], 10));
-        assert.equal(6, summation.sumSequence(['1', '2', '3'], 10));
-        assert.equal(6, summation.sumSequence(['1    ', ' 2 ', '   3'], 10));
-        assert.equal(13, summation.sumSequence(['1', '2', '10'], 10));
-        assert.equal(9, summation.sumSequence(['1', '-2', '10'], 10));
-        assert.equal(3, summation.sumSequence(['1', '2', 'af'], 10));
-        assert.equal(45, summation.sumSequence(['{1, 2, 3}', '{4, 5, 6}', '{7, 8, 9}'], 10));
+        assert.equal(0, summation.sumSequence([], 10)[0]);
+        assert.equal(0, summation.sumSequence([''], 10)[0]);
+        assert.equal(1, summation.sumSequence(['1'], 10)[0]);
+        assert.equal(6, summation.sumSequence(['1', '2', '3'], 10)[0]);
+        assert.equal(6, summation.sumSequence(['1    ', ' 2 ', '   3'], 10)[0]);
+        assert.equal(13, summation.sumSequence(['1', '2', '10'], 10)[0]);
+        assert.equal(9, summation.sumSequence(['1', '-2', '10'], 10)[0]);
+        assert.equal(3, summation.sumSequence(['1', '2', 'af'], 10)[0]);
+        assert.equal(45, summation.sumSequence(['{1, 2, 3}', '{4, 5, 6}', '{7, 8, 9}'], 10)[0]);
     });
 
     test('Sum hexadecimals', () => {
-        assert.equal(0, summation.sumSequence([], 16));
-        assert.equal(0, summation.sumSequence([''], 16));
-        assert.equal(1, summation.sumSequence(['1'], 16));
-        assert.equal(6, summation.sumSequence(['1', '2', '3'], 16));
-        assert.equal(17, summation.sumSequence(['-1', '2', '10'], 16));
-        assert.equal(178, summation.sumSequence(['1', '2', 'af'], 16));
-        assert.equal(-172, summation.sumSequence(['0x1', '0x2', '-0xaf'], 16));
-        assert.equal(5, summation.sumSequence(['{0x1, 0x2, 0x3}', '{0x4, 0x5, 0x6}', '{-0x10, 0x0, 0x0}'], 16));
+        assert.equal(0, summation.sumSequence([], 16)[0]);
+        assert.equal(0, summation.sumSequence([''], 16)[0]);
+        assert.equal(1, summation.sumSequence(['1'], 16)[0]);
+        assert.equal(6, summation.sumSequence(['1', '2', '3'], 16)[0]);
+        assert.equal(17, summation.sumSequence(['-1', '2', '10'], 16)[0]);
+        assert.equal(178, summation.sumSequence(['1', '2', 'af'], 16)[0]);
+        assert.equal(-172, summation.sumSequence(['0x1', '0x2', '-0xaf'], 16)[0]);
+        assert.equal(5, summation.sumSequence(['{0x1, 0x2, 0x3}', '{0x4, 0x5, 0x6}', '{-0x10, 0x0, 0x0}'], 16)[0]);
     });
 
     test('Sum binary', () => {
-        assert.equal(0, summation.sumSequence([], 2));
-        assert.equal(0, summation.sumSequence([''], 2));
-        assert.equal(1, summation.sumSequence(['1'], 2));
-        assert.equal(1, summation.sumSequence(['1', '2', '3'], 2));
-        assert.equal(-1, summation.sumSequence(['1', '0', '-10'], 2));
-        assert.equal(1, summation.sumSequence(['-0b1', '0b0', '0b10'], 2));
-        assert.equal(20, summation.sumSequence(['{0b1, 0b10, 0b11}', '{0b100, 0b101, 0b110}', '{-0b1, 0x0, 0x0}'], 2));
+        assert.equal(0, summation.sumSequence([], 2)[0]);
+        assert.equal(0, summation.sumSequence([''], 2)[0]);
+        assert.equal(1, summation.sumSequence(['1'], 2)[0]);
+        assert.equal(1, summation.sumSequence(['1', '2', '3'], 2)[0]);
+        assert.equal(-1, summation.sumSequence(['1', '0', '-10'], 2)[0]);
+        assert.equal(1, summation.sumSequence(['-0b1', '0b0', '0b10'], 2)[0]);
+        assert.equal(20, summation.sumSequence(['{0b1, 0b10, 0b11}', '{0b100, 0b101, 0b110}', '{-0b1, 0x0, 0x0}'], 2)[0]);
+    });
+
+    test('Mean', () => {
+        assert.equal(0, summation.sumSequence([], 0)[1]);
+        assert.equal(0, summation.sumSequence([''], 0)[1]);
+        assert.equal(1, summation.sumSequence(['1.'], 0)[1]);
+        assert.equal(2, summation.sumSequence(['1.0', '2.0', '3.0'], 0)[1]);
+        assert.equal(0.5, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3'], 0)[1]);
+        assert.equal(40.3333333333333333333333333333, summation.sumSequence(['1e+0', '2.E+1', '10e1'], 0)[1]);
+        assert.equal(3.6, summation.sumSequence(['1', '-.2', '10'], 0)[1]);
+        assert.equal(1.5, summation.sumSequence(['1', '2', 'af'], 0)[1]);
+        assert.equal(40.230000000000004 / 9.0, summation.sumSequence(['{1.0, 0.2, 0.03}', '{4, 5, 6}', '{7, 8, 9}'], 0)[1]); // floating point rounding error, but ok
+    });
+
+    test('Standard deviation', () => {
+        assert.equal(0, summation.sumSequence([], 0)[2]);
+        assert.equal(0, summation.sumSequence([''], 0)[2]);
+        assert.equal(0, summation.sumSequence(['1.'], 0)[2]);
+        assert.equal(Math.sqrt(2.0 / 3.0), summation.sumSequence(['1.0', '2.0', '3.0'], 0)[2]);
+        assert.equal(Math.sqrt((0.5 * 0.5 + 0.3 * 0.3 + 0.2 * 0.2) / 3.0), summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3'], 0)[2]);
+    });
+
+    test('Median', () => {
+        assert.equal(0, summation.sumSequence([], 0)[3]);
+        assert.equal(0, summation.sumSequence([''], 0)[3]);
+        assert.equal(1.0, summation.sumSequence(['1.'], 0)[3]);
+        assert.equal(2.0, summation.sumSequence(['1.0', '2.0', '3.0'], 0)[3]);
+        assert.equal(0.3, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3'], 0)[3]);
+        assert.equal(0.3, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3', '0.3'], 0)[3]);
+        assert.equal(0.6, summation.sumSequence(['1e0    ', ' 2e-1 '], 0)[3]);
     });
 });
 
