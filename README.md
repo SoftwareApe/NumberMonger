@@ -33,6 +33,9 @@ Thank you for the amazing Yeoman VSCode extension generator!
 
 ## Release Notes
 
+### 0.2.1
+* Fixed median bug.
+
 ### 0.2.0
 * Support for floating point summation
 * Additional information about the sequence (mean, median, standard deviation)
