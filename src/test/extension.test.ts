@@ -89,6 +89,7 @@ suite('Sum Sequence tests', () => {
         assert.equal(0.3, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3'], 0)[3]);
         assert.equal(0.3, summation.sumSequence(['1e0    ', ' 2e-1 ', '  .3', '0.3'], 0)[3]);
         assert.equal(0.6, summation.sumSequence(['1e0    ', ' 2e-1 '], 0)[3]);
+        assert.equal(7, summation.sumSequence(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'], 0)[3]);
     });
 });
 

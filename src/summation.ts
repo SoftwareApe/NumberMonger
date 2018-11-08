@@ -66,7 +66,8 @@ export function sumSequence(textSelections : string[], base : number) : number[]
     let median = 0;
     if (len > 0)
     {
-        let sorted = numbers.sort();
+        // Need to give a sorting function, otherwise will be sorted as string, which fails with mixed number of digits!
+        let sorted = numbers.sort((a, b) => a - b);
 
         mean = sum / len;
         standardDev = Math.sqrt(numbers.map(x => (x - mean) ** 2).reduce((a, b) => a + b, 0) / len);
@@ -74,13 +75,13 @@ export function sumSequence(textSelections : string[], base : number) : number[]
         if (len & 1) // odd
         {
             let mid = Math.floor(len / 2);
-            median = numbers[mid];
+            median = sorted[mid];
         }
         else // even and minimum 2 (0 case excluded above)
         {
             let mid1 = len / 2;
             let mid2 = mid1 - 1;
-            median = (numbers[mid1] + numbers[mid2]) / 2;
+            median = (sorted[mid1] + sorted[mid2]) / 2;
         }
     }
     return [sum, mean, standardDev, median];
