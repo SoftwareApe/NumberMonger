@@ -49,6 +49,16 @@ export function promptUserInteger(prompt : string, defaultVal : number, callback
     });
 }
 
+export function promptUserFloat(prompt : string, defaultVal : number, callback : (value : number) => any) : void {
+    promptUser(prompt, v => {
+        let n = parseFloat(v);
+        if (isNaN(n)) {
+            n = defaultVal;
+        }
+        callback(n);
+    });
+}
+
 export function promptUserYesNo(prompt : string, defaultVal : boolean, callback : (value : boolean) => any) : void {
     promptUser(prompt + ' [y/n]', v => {
         let b = defaultVal ? !v.startsWith('n') : v.startsWith('y');

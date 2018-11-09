@@ -49,6 +49,10 @@ export function activate(context : vscode.ExtensionContext) : void {
             'callback' : sequences.createSequenceBin
         },
         {
+            'name' : 'extension.createSequenceFloat',
+            'callback' : sequences.createSequenceFloat
+        },
+        {
             'name' : 'extension.createRandomSequenceDec',
             'callback' : sequences.createRandomSequenceDec
         },
@@ -59,6 +63,10 @@ export function activate(context : vscode.ExtensionContext) : void {
         {
             'name' : 'extension.createRandomSequenceBin',
             'callback' : sequences.createRandomSequenceBin
+        },
+        {
+            'name' : 'extension.createRandomSequenceFloat',
+            'callback' : sequences.createRandomSequenceFloat
         },
         {
           'name': 'extension.convertHexToDec',

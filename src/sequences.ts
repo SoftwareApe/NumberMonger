@@ -72,6 +72,44 @@ function createRandomSequenceAny(base : number) : void {
     });
 }
 
+export function createSequenceFloat() : void {
+    let editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return; // No open text editor => do nothing
+    }
+
+    let base = 10
+    editorIO.promptUserFloat('Sequence start (0.0)', 0.0, start => {
+        editorIO.promptUserFloat('Sequence step size (1.0)', 1.0, stepSize => {
+            let selections = editor.selections;
+            let nValues = selections.length;
+            let sequence = createSequence(start, nValues, stepSize);
+            let output = numbersToString(sequence, base, false, false);
+
+            editorIO.replaceSelections(editor, selections, output);
+        });
+    });
+}
+
+export function createRandomSequenceFloat() : void {
+    let editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return; // No open text editor => do nothing
+    }
+
+    let base = 10
+    editorIO.promptUserFloat('Min (0.0) [float]', 0.0, min => {
+        editorIO.promptUserFloat('Max (1.0) [float]', 1.0, max => {
+            let selections = editor.selections;
+            let nValues = selections.length;
+            let sequence = createRandomFloatSequence(min, max, nValues);
+            let output = numbersToString(sequence, base, false, false);
+
+            editorIO.replaceSelections(editor, selections, output);
+        });
+    });
+}
+
 
 export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
     let seq = [];
@@ -93,9 +131,24 @@ export function createRandomSequence(min : number, max : number, nValues : numbe
     return seq;
 }
 
+export function createRandomFloatSequence(min : number, max : number, nValues : number) : number[] {
+    let seq = [];
+
+    for (let i = 0; i < nValues; ++i) {
+        seq.push(getRandomFloat(min, max));
+    }
+
+    return seq;
+}
+
 function getRandomInt(min : number, max : number) : number
 {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomFloat(min : number, max : number) : number
+{
+    return Math.random() * (max - min) + min;
 }
 
 export function numbersToString(numbers : number[], base : number, isRightAligned : boolean, isZeroPadded : boolean) : string[] {

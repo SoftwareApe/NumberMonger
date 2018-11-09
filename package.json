@@ -2,7 +2,7 @@
     "name": "numbermonger",
     "displayName": "NumberMonger",
     "description": "Sum up selected numbers. Insert a sequence of numbers at the multi-cursor positions. Start the sequence at an arbitrary number and with arbitrary stepsize. Convert hex values to decimal or binary and vice versa.",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "publisher": "softwareape",
     "license": "MIT",
     "repository": "https://github.com/SoftwareApe/NumberMonger",
@@ -21,9 +21,11 @@
         "onCommand:extension.createSequenceDec",
         "onCommand:extension.createSequenceHex",
         "onCommand:extension.createSequenceBin",
+        "onCommand:extension.createSequenceFloat",
         "onCommand:extension.createRandomSequenceDec",
         "onCommand:extension.createRandomSequenceHex",
         "onCommand:extension.createRandomSequenceBin",
+        "onCommand:extension.createRandomSequenceFloat",
         "onCommand:extension.convertHexToDec",
         "onCommand:extension.convertDecToHex",
         "onCommand:extension.convertBinToDec",
@@ -61,6 +63,10 @@
                 "title": "Insert Sequence (Binary)"
             },
             {
+                "command": "extension.createSequenceFloat",
+                "title": "Insert Sequence (Float)"
+            },
+            {
                 "command": "extension.createRandomSequenceDec",
                 "title": "Insert Random Sequence"
             },
@@ -71,6 +77,10 @@
             {
                 "command": "extension.createRandomSequenceBin",
                 "title": "Insert Random Sequence (Binary)"
+            },
+            {
+                "command": "extension.createRandomSequenceFloat",
+                "title": "Insert Random Sequence (Float)"
             },
             {
                 "command": "extension.convertHexToDec",

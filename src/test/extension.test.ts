@@ -105,6 +105,14 @@ suite('Create Sequence tests', () => {
         assert.deepStrictEqual([12.0, 10.5, 9.0, 7.5, 6.0, 4.5, 3.0, 1.5, 0.0, -1.5], sequences.createSequence(12, 10, -1.5));
     });
 
+    test('Display sequences as string, float', () => {
+        assert.deepStrictEqual([], sequences.numbersToString([], 10, false, false));
+        assert.deepStrictEqual(['0', '1.5', '2'], sequences.numbersToString([0, 1.5, 2], 10, false, false));
+        assert.deepStrictEqual(['0', '1.33', '0.001'], sequences.numbersToString([0, 1.33, 0.001], 10, false, false));
+        assert.deepStrictEqual(['-1.7', '0', '1.7'], sequences.numbersToString([-1.7, 0, 1.7], 10, false, false));
+        /* zero-padding and right alignment make little sense for floating point numbers */
+    });
+
     test('Display sequences as string, dec', () => {
         assert.deepStrictEqual([], sequences.numbersToString([], 10, false, false));
         assert.deepStrictEqual(['0', '1', '2'], sequences.numbersToString([0, 1, 2], 10, false, false));
