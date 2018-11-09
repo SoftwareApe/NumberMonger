@@ -102,6 +102,7 @@ suite('Create Sequence tests', () => {
         assert.deepStrictEqual([1, 5, 9], sequences.createSequence(1, 3, 4));
         assert.deepStrictEqual([0, -4, -8], sequences.createSequence(0, 3, -4));
         assert.deepStrictEqual([12, 8, 4, 0, -4, -8, -12], sequences.createSequence(12, 7, -4));
+        assert.deepStrictEqual([12.0, 10.5, 9.0, 7.5, 6.0, 4.5, 3.0, 1.5, 0.0, -1.5], sequences.createSequence(12, 10, -1.5));
     });
 
     test('Display sequences as string, dec', () => {
