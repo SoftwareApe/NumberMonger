@@ -113,9 +113,11 @@ export function createRandomSequenceFloat() : void {
 
 export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
     let seq = [];
+    let precision = parseFloat(stepSize).toString();
+    precision = precision.substr(precision.indexOf(".") + 1).length;
 
     for (let i = 0; i < nValues; ++i) {
-        seq.push(start + i * stepSize);
+        seq.push((start + i * stepSize).toFixed(precision));
     }
 
     return seq;
