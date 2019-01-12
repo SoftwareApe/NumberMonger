@@ -28,6 +28,11 @@ export function createRandomSequenceBin() : void {
     createRandomSequenceAny(2);
 }
 
+/* get the precision used on a floating point number, e.g. 0.3 is 1, 1 is 0*/
+function getFloatingPointPrecision(f : number) : number {
+    return 0;
+}
+
 function createSequenceAny(base : number) : void {
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -78,7 +83,7 @@ export function createSequenceFloat() : void {
         return; // No open text editor => do nothing
     }
 
-    let base = 10
+    let base = 10;
     editorIO.promptUserFloat('Sequence start (0.0)', 0.0, start => {
         editorIO.promptUserFloat('Sequence step size (1.0)', 1.0, stepSize => {
             let selections = editor.selections;
@@ -97,7 +102,7 @@ export function createRandomSequenceFloat() : void {
         return; // No open text editor => do nothing
     }
 
-    let base = 10
+    let base = 10;
     editorIO.promptUserFloat('Min (0.0) [float]', 0.0, min => {
         editorIO.promptUserFloat('Max (1.0) [float]', 1.0, max => {
             let selections = editor.selections;
@@ -113,8 +118,8 @@ export function createRandomSequenceFloat() : void {
 
 export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
     let seq = [];
-    let precision = parseFloat(stepSize).toString();
-    precision = precision.substr(precision.indexOf(".") + 1).length;
+    let decimals : string = stepSize.toString();
+    let precision : number = decimals.substr(decimals.indexOf('.') + 1).length;
 
     for (let i = 0; i < nValues; ++i) {
         seq.push((start + i * stepSize).toFixed(precision));
