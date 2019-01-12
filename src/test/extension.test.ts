@@ -167,5 +167,8 @@ suite('Helper function tests', () => {
         assert.equal(2, sequences.getFloatingPointPrecision(1.15));
         assert.equal(0, sequences.getFloatingPointPrecision(1));
         assert.equal(0, sequences.getFloatingPointPrecision(1e4));
+        assert.equal(0, sequences.getFloatingPointPrecision(1.234e5));
+        assert.equal(2, sequences.getFloatingPointPrecision(1.234e+1));
+        assert.equal(4, sequences.getFloatingPointPrecision(1.234e-1));
     });
 });
