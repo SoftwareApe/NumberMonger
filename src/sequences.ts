@@ -39,7 +39,7 @@ export function getFloatingPointPrecision(f : number) : number {
         return 0;
     }
     else {
-        let precision : number = decimals.substr(decimals.indexOf('.') + 1).length;
+        let precision : number = decimals.length - (decimalIndex + 1);
         return precision;
     }
 }
