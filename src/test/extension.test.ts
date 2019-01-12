@@ -105,6 +105,9 @@ suite('Create Sequence tests', () => {
     });
 
     test('Create number sequence array float', () => {
+        assert.deepStrictEqual(['0', '1', '2'], sequences.createSequenceArrayFloat(0, 3, 1));
+        assert.deepStrictEqual(['0.0', '1.1', '2.2'], sequences.createSequenceArrayFloat(0, 3, 1.1));
+        assert.deepStrictEqual(['0.1', '2.1', '4.1'], sequences.createSequenceArrayFloat(0.1, 3, 2));
         assert.deepStrictEqual(['12.0', '10.5', '9.0', '7.5', '6.0', '4.5', '3.0', '1.5', '0.0', '-1.5'], sequences.createSequenceArrayFloat(12, 10, -1.5));
     });
 
