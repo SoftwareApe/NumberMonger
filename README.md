@@ -33,6 +33,9 @@ Thank you for the amazing Yeoman VSCode extension generator!
 
 ## Release Notes
 
+### 0.4.0
+* Improved display of inserted floating point sequences.
+
 ### 0.3.0
 * Added support for inserting floating point sequences.
 
