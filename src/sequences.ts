@@ -129,7 +129,9 @@ export function createRandomSequenceFloat() : void {
 
 export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
     let seq = [];
-    let precision : number = getFloatingPointPrecision(stepSize);
+    let precisionStart = getFloatingPointPrecision(start);
+    let precisionStep = getFloatingPointPrecision(stepSize);
+    let precision = Math.max(precisionStart, precisionStep);
 
     for (let i = 0; i < nValues; ++i) {
         seq.push((start + i * stepSize).toFixed(precision));
