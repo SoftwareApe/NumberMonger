@@ -29,8 +29,13 @@ export function createRandomSequenceBin() : void {
 }
 
 /* get the precision used on a floating point number, e.g. 0.3 is 1, 1 is 0*/
-function getFloatingPointPrecision(f : number) : number {
-    return 0;
+export function getFloatingPointPrecision(f : number) : number {
+    /* display as string */
+    let decimals : string = f.toString();
+
+    /* count the number of decimal places */
+    let precision : number = decimals.substr(decimals.indexOf('.') + 1).length;
+    return precision;
 }
 
 function createSequenceAny(base : number) : void {
@@ -118,8 +123,7 @@ export function createRandomSequenceFloat() : void {
 
 export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
     let seq = [];
-    let decimals : string = stepSize.toString();
-    let precision : number = decimals.substr(decimals.indexOf('.') + 1).length;
+    let precision : number = getFloatingPointPrecision(stepSize);
 
     for (let i = 0; i < nValues; ++i) {
         seq.push((start + i * stepSize).toFixed(precision));
