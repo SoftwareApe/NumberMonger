@@ -34,8 +34,14 @@ export function getFloatingPointPrecision(f : number) : number {
     let decimals : string = f.toString();
 
     /* count the number of decimal places */
-    let precision : number = decimals.substr(decimals.indexOf('.') + 1).length;
-    return precision;
+    let decimalIndex : number = decimals.indexOf('.');
+    if (decimalIndex < 0) { // no decimal index found
+        return 0;
+    }
+    else {
+        let precision : number = decimals.substr(decimals.indexOf('.') + 1).length;
+        return precision;
+    }
 }
 
 function createSequenceAny(base : number) : void {

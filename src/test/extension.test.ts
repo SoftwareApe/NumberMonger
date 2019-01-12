@@ -160,3 +160,12 @@ suite('Number conversion tests', () => {
         assert.equal('{-0b101, 0b10}', convert.convertStringBaseToBase('{-5, 2}', 10, 2, true));
     });
 });
+
+suite('Helper function tests', () => {
+    test('Get precision', () => {
+        assert.equal(1, sequences.getFloatingPointPrecision(1.1));
+        assert.equal(2, sequences.getFloatingPointPrecision(1.15));
+        assert.equal(0, sequences.getFloatingPointPrecision(1));
+        assert.equal(0, sequences.getFloatingPointPrecision(1e4));
+    });
+});
