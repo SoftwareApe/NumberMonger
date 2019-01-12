@@ -56,7 +56,7 @@ function createSequenceAny(base : number) : void {
                 editorIO.promptUserYesNo('Zero pad? (n)', false, isZeroPadded => {
                         let selections = editor.selections;
                         let nValues = selections.length;
-                        let sequence = createSequence(start, nValues, stepSize);
+                        let sequence = createSequenceArray(start, nValues, stepSize);
                         let output = numbersToString(sequence, base, isRightAligned, isZeroPadded);
 
                         editorIO.replaceSelections(editor, selections, output);
@@ -99,8 +99,7 @@ export function createSequenceFloat() : void {
         editorIO.promptUserFloat('Sequence step size (1.0)', 1.0, stepSize => {
             let selections = editor.selections;
             let nValues = selections.length;
-            let sequence = createSequence(start, nValues, stepSize);
-            let output = numbersToString(sequence, base, false, false);
+            let output = createSequenceArrayFloat(start, nValues, stepSize);
 
             editorIO.replaceSelections(editor, selections, output);
         });
@@ -127,7 +126,18 @@ export function createRandomSequenceFloat() : void {
 }
 
 
-export function createSequence(start : number, nValues : number, stepSize : number) : number[] {
+export function createSequenceArray(start : number, nValues : number, stepSize : number) : number[] {
+    let seq = [];
+
+    for (let i = 0; i < nValues; ++i) {
+        seq.push(start + i * stepSize);
+    }
+
+    return seq;
+}
+
+/* floating point sequence is fixed for precision and therefore has a different type (string) as return value */
+export function createSequenceArrayFloat(start : number, nValues : number, stepSize : number) : string[] {
     let seq = [];
     let precisionStart = getFloatingPointPrecision(start);
     let precisionStep = getFloatingPointPrecision(stepSize);
