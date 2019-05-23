@@ -1,6 +1,7 @@
 import * as editorIO from './editorIO';
 import * as convert from './convert';
 import * as vscode from 'vscode';
+import * as clipboardy from 'clipboardy';
 
 export function sumSequenceFloat() : void {
     printSum(sumSequence(editorIO.getSelectedTexts(), 0));
@@ -29,7 +30,18 @@ function printSum(sum : number[]) : void {
     displayText[1] = isLenOk && notNaN(sum[1]) ? 'μ = ' + sum[1] : 'μ = NaN';
     displayText[2] = isLenOk && notNaN(sum[2]) ? 'σ = ' + sum[2] : 'σ = NaN';
     displayText[3] = isLenOk && notNaN(sum[3]) ? 'median = ' + sum[3] : 'median = NaN';
-    vscode.window.showQuickPick(displayText);
+    vscode.window.showQuickPick(displayText).then(
+        v => {
+            if (v !== undefined) {
+                // copy the number to clipboard, not the shown expression
+                for (let i = 0; i < displayText.length; ++i) {
+                    if (v === displayText[i]) {
+                        clipboardy.write(sum[i].toString());
+                    }
+                }
+            }
+        }
+    );
 }
 
 function textSelectionToNumbers(textSelections : string[], base : number) : number[] {
