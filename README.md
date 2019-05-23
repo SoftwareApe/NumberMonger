@@ -13,6 +13,7 @@ NumberMonger lets you
 All features are accessed through the command bar (ctrl+p).
 
 * Sum Sequence, even when they're inside arrays! Also shows mean, standard deviation and median of the sequence.
+*Hint*: The selected value gets copied to clipboard, press Esc if you want to keep your cliboard
 
 ![Sum Sequence Demo](./images/sumSequence.gif)
 * Insert Sequence of hex, dec or bin numbers with arbitrary start, step size, right or left alignment and zero padding.
@@ -32,6 +33,9 @@ Thank you for the amazing Yeoman VSCode extension generator!
 ## Known Issues
 
 ## Release Notes
+
+### 0.5.0
+* Copy value from summation to clipboard.
 
 ### 0.4.0
 * Improved display of inserted floating point sequences.
