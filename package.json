@@ -108,7 +108,6 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
-        "@types/sprintf-js": "^1.1.0",
         "left-pad": "^1.2.0",
         "sprintf-js": "^1.1.1"
     },
