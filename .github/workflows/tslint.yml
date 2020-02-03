@@ -14,4 +14,4 @@ jobs:
       with:
         token: ${{secrets.GITHUB_TOKEN}}
         project: 'tsconfig.json'
-
+        pattern: '*.ts'
