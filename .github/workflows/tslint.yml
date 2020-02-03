@@ -12,5 +12,5 @@ jobs:
     - name: Run TSLint
       uses: mooyoul/tslint-actions@v1.1.1
       with:
-        token: ''
+        project: 'tsconfig.json'
 
