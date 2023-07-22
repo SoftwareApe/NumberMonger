@@ -83,6 +83,14 @@ export function activate(context : vscode.ExtensionContext) : void {
         {
           'name': 'extension.convertDecToBin',
           'callback': convert.convertDecToBin
+        },
+        {
+          'name': 'extension.convertHexToBin',
+          'callback': convert.convertHexToBin
+        },
+        {
+          'name': 'extension.convertBinToHex',
+          'callback': convert.convertBinToHex
         }
     ];
 
