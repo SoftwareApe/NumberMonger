@@ -29,7 +29,10 @@
         "onCommand:extension.convertHexToDec",
         "onCommand:extension.convertDecToHex",
         "onCommand:extension.convertBinToDec",
-        "onCommand:extension.convertDecToBin"
+        "onCommand:extension.convertDecToBin",
+        "onCommand:extension.convertHexToBin",
+        "onCommand:extension.convertBinToHex"
+
     ],
     "main": "./out/extension",
     "contributes": {
@@ -97,6 +100,14 @@
             {
                 "command": "extension.convertDecToBin",
                 "title": "Convert Dec -> Bin"
+            },
+            {
+                "command": "extension.convertHexToBin",
+                "title": "Convert Hex -> Bin"
+            },
+            {
+                "command": "extension.convertBinToHex",
+                "title": "Convert Bin -> Hex"
             }
         ]
     },

@@ -17,6 +17,14 @@ export function convertDecToBin() : void {
     convertBaseToBase(10, 2);
 }
 
+export function convertHexToBin() : void {
+    convertBaseToBase(16, 2);
+}
+
+export function convertBinToHex() : void {
+    convertBaseToBase(2, 16);
+}
+
 export function convertBaseToBase(baseFrom : number, baseTo : number) : void {
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
